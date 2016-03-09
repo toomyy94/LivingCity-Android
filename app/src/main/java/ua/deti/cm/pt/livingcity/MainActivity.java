@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
