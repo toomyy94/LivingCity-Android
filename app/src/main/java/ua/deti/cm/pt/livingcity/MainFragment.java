@@ -48,6 +48,8 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
         googleMap.addMarker(new MarkerOptions().position(AVEIRO).title("Aveiro"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AVEIRO, 13));
     }
