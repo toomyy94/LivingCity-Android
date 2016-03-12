@@ -1,12 +1,10 @@
 package ua.deti.cm.pt.livingcity;
 
 
-import android.hardware.camera2.CameraAccessException;
-import android.location.Location;
-import android.location.LocationListener;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.view.SupportActionModeWrapper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +13,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import ua.deti.cm.pt.livingcity.modules.LocationGPS;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 
 /**
@@ -58,17 +58,19 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        LocationGPS gps = new LocationGPS(getActivity());
-
-
-        Toast toast = Toast.makeText(getActivity(), "latitude: "+gps.getLatitude()+";\n longitude: "+gps.getLongitude() +"\nLoca:" + gps.getLongitude(), Toast.LENGTH_SHORT);
-        toast.show();
+        LocationCoord gps = new LocationCoord(getActivity());
 
 
 
-        googleMap.addMarker(new MarkerOptions().position(AVEIRO).title("Aveiro").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AVEIRO, 13));
+        //debug
+       // Toast toast = Toast.makeText(getActivity(), "latitude:" + getLocationName(gps.getLatitude(), gps.getLongitude()), Toast.LENGTH_SHORT);
+       // toast.show();
+
+
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Aveiro").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
     }
+
 
 
 

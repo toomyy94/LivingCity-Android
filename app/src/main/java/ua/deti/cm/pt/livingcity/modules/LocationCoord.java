@@ -16,7 +16,7 @@ import android.util.Log;
 /**
  * Created by Rui Oliveira on 09/03/2016.
  */
-public class LocationGPS extends Service implements LocationListener {
+public class LocationCoord extends Service implements LocationListener {
 
     private final Context mContext;
 
@@ -41,11 +41,10 @@ public class LocationGPS extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public LocationGPS(Context context) {
+    public LocationCoord(Context context) {
         this.mContext = context;
         getLocation();
     }
-
 
     public Location getLocation() throws SecurityException {
         try {
