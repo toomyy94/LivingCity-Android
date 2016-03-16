@@ -32,10 +32,11 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private LocationCoord gps;
     private static final LatLng AVEIRO = new LatLng(40.640139687483234, -8.652763366699219);
 
-    public MainFragment() {
-
+    public MainFragment(LocationCoord gps) {
+        this.gps = gps;
     }
 
     @Override
@@ -58,7 +59,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        LocationCoord gps = new LocationCoord(getActivity());
+
 
 
 

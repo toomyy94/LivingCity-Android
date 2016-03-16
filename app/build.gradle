@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
+    useLibrary 'org.apache.http.legacy'
+
 
     defaultConfig {
         applicationId "ua.deti.cm.pt.livingcity"
@@ -28,4 +30,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.0'
     compile 'com.firebaseui:firebase-ui:0.3.1'
     compile 'com.google.android.gms:play-services:8.4.0'
+    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+
 }

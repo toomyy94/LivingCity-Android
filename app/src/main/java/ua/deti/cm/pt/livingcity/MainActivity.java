@@ -17,11 +17,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import ua.deti.cm.pt.livingcity.modules.LocationCoord;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    NavigationView navigationView = null;
-    Toolbar toolbar = null;
+    private NavigationView navigationView = null;
+    private Toolbar toolbar = null;
+    private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
 
@@ -30,8 +37,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        gps = new LocationCoord(this);
+
+
         //fragmetn initially
-        MainFragment fragment = new MainFragment();
+        MainFragment fragment = new MainFragment(gps);
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -61,6 +71,8 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
 
     }
 
@@ -103,14 +115,21 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            MainFragment fragment = new MainFragment();
+            MainFragment fragment = new MainFragment(gps);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_gallery) {
-            PhotosList fragment = new PhotosList();
+            PhotosList fragment = null;
+            try {
+                fragment = new PhotosList(gps);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
