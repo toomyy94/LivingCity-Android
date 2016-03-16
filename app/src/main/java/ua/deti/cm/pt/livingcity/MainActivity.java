@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -111,16 +110,22 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_gallery) {
+            PhotosList fragment = new PhotosList();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
+
+        } else if (id == R.id.nav_slideshow) {
             SensorFragment fragment = new SensorFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_slideshow) {
-
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+
 
         } else if (id == R.id.nav_send) {
 
