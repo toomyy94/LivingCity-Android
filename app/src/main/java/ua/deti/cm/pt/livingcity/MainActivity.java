@@ -20,7 +20,9 @@ import android.view.MenuItem;
 import org.json.JSONException;
 
 import java.io.IOException;
-
+import java.util.HashMap;
+import java.util.Map;
+import com.firebase.client.*;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 public class MainActivity extends AppCompatActivity
@@ -31,11 +33,14 @@ public class MainActivity extends AppCompatActivity
     private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    Firebase mRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Firebase.setAndroidContext(this);
 
         gps = new LocationCoord(this);
 
@@ -165,5 +170,38 @@ public class MainActivity extends AppCompatActivity
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},PERMISSION_REQUEST_CODE);
     }
 
+    private void addFirebaseData(){
+        mRef = new Firebase("https://livingcityapp.firebaseio.com");
+
+        Firebase usersRef = mRef.child("database");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("Temperature", "23º");
+        map.put("Humidade", "24qq coida");
+        map.put("Latitude", "43º");
+        map.put("Longitude", "8º");
+        map.put("Hora", "13:57");
+
+        Map<String, Map<String, String>> product = new HashMap<String, Map<String, String>>();
+        product.put("user X", map);
+        usersRef.setValue(product);
+    }
+
+    private void getFirebaseData(){
+        mRef = new Firebase("https://livingcityapp.firebaseio.com");
+
+        Firebase usersRef = mRef.child("database");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("Temperature", "23º");
+        map.put("Humidade", "24qq coida");
+        map.put("Latitude", "43º");
+        map.put("Longitude", "8º");
+        map.put("Hora", "13:57");
+
+        Map<String, Map<String, String>> product = new HashMap<String, Map<String, String>>();
+        product.put("userX", map);
+        usersRef.setValue(product);
+    }
 
 }
