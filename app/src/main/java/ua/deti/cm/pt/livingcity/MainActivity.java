@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -167,13 +168,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void requestPermission(){
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
     }
 
     private void addFirebaseData(){
+        //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com");
 
-        Firebase usersRef = mRef.child("database");
+        Firebase usersRef = mRef.child("UserXPTO");
 
         Map<String, String> map = new HashMap<>();
         map.put("Temperature", "23º");
@@ -182,26 +184,36 @@ public class MainActivity extends AppCompatActivity
         map.put("Longitude", "8º");
         map.put("Hora", "13:57");
 
-        Map<String, Map<String, String>> product = new HashMap<String, Map<String, String>>();
-        product.put("user X", map);
-        usersRef.setValue(product);
+        usersRef.setValue(map);
     }
 
     private void getFirebaseData(){
+        //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com");
 
         Firebase usersRef = mRef.child("database");
 
-        Map<String, String> map = new HashMap<>();
-        map.put("Temperature", "23º");
-        map.put("Humidade", "24qq coida");
-        map.put("Latitude", "43º");
-        map.put("Longitude", "8º");
-        map.put("Hora", "13:57");
+        //descomentar para por numa text view
+        // fireData = (TextView) findViewById(R.id.firedata);
 
-        Map<String, Map<String, String>> product = new HashMap<String, Map<String, String>>();
-        product.put("userX", map);
-        usersRef.setValue(product);
+        usersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String,String> map = dataSnapshot.getValue(Map.class);
+                String tmphora = map.get("Hora");
+                String tmphumidade = map.get("Humidade");
+                //...
+                //descomentar para por numa text view
+                // fireData.setText(tmphora);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
+
+
 
 }
