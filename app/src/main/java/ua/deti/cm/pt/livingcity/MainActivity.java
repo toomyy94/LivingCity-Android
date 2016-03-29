@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity
     private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    Firebase mRef;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,49 +167,6 @@ public class MainActivity extends AppCompatActivity
 
     private void requestPermission(){
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
-    }
-
-    private void addFirebaseData(){
-        //dummy values
-        mRef = new Firebase("https://livingcityapp.firebaseio.com");
-
-        Firebase usersRef = mRef.child("UserXPTO");
-
-        Map<String, String> map = new HashMap<>();
-        map.put("Temperature", "23º");
-        map.put("Humidade", "24qq coida");
-        map.put("Latitude", "43º");
-        map.put("Longitude", "8º");
-        map.put("Hora", "13:57");
-
-        usersRef.setValue(map);
-    }
-
-    private void getFirebaseData(){
-        //dummy values
-        mRef = new Firebase("https://livingcityapp.firebaseio.com");
-
-        Firebase usersRef = mRef.child("database");
-
-        //descomentar para por numa text view
-        // fireData = (TextView) findViewById(R.id.firedata);
-
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String,String> map = dataSnapshot.getValue(Map.class);
-                String tmphora = map.get("Hora");
-                String tmphumidade = map.get("Humidade");
-                //...
-                //descomentar para por numa text view
-                // fireData.setText(tmphora);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
     }
 
 

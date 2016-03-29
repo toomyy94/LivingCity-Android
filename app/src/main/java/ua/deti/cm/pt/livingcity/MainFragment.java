@@ -20,9 +20,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 
@@ -50,6 +53,17 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String currentDateandTime = sdf.format(new Date());
+
+
+        FireBaseModule fbm = new FireBaseModule();
+
+        fbm.addValuesFireBase(13, 12,gps.getLatitude(), gps.getLongitude() ,currentDateandTime);
+
+
+
+
         return v;
     }
 
@@ -61,15 +75,15 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
 
 
-
-
         //debug
        // Toast toast = Toast.makeText(getActivity(), "latitude:" + getLocationName(gps.getLatitude(), gps.getLongitude()), Toast.LENGTH_SHORT);
        // toast.show();
 
 
+
         googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Aveiro").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
+
     }
 
 
