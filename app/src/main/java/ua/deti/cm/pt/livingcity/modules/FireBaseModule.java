@@ -42,7 +42,7 @@ public class FireBaseModule {
         //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com");
 
-        Firebase usersRef = mRef.child("livingcityapp");
+        Firebase usersRef = mRef.child("20160330");
 
         //descomentar para por numa text view
         // fireData = (TextView) findViewById(R.id.firedata);
@@ -51,9 +51,11 @@ public class FireBaseModule {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, String> map = dataSnapshot.getValue(Map.class);
-                String tmphora = map.get("Hora");
+
                 String tmphumidade = map.get("Humidade");
 
+
+                Log.i("FAS", tmphumidade);
 
                 //...
                 //descomentar para por numa text view

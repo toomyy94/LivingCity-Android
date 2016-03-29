@@ -55,6 +55,10 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
 
+        FireBaseModule fb = new FireBaseModule();
+
+        fb.getFirebaseData("das") ;
+
         return v;
     }
 
