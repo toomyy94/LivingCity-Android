@@ -7,9 +7,12 @@
         android:targetSdkVersion="21" />
 
 
-
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
 
 
     <application
@@ -22,7 +25,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBqpMVm7Q0TNG2xGeGpvdvwWRX9uXI3Flw" />
+            android:value="AIzaSyCfVHdyFz0Wyzx_X4WGMKURPMqc61Qz7gM" />
 
         <activity
             android:name=".MainActivity"
@@ -34,7 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".bluetoothgatt.BeaconKitKatActivity"></activity>
+        <activity android:name=".bluetoothgatt.BeaconLollipopActivity"></activity>
+        <activity android:name=".Bluetooth.DeviceControlActivity"></activity>
+        <activity android:name=".Bluetooth.DeviceScanActivity"></activity>
 
     </application>
 

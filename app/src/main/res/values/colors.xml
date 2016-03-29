@@ -9,5 +9,7 @@
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
+    <color name="colorMenu">#008000</color>
+    <color name="colorMenuOlive">#808000</color>
 
 </resources>

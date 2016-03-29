@@ -1,5 +1,6 @@
 package ua.deti.cm.pt.livingcity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 import ua.deti.cm.pt.livingcity.modules.PanoramioReader;
 
-
+@SuppressLint("ValidFragment")
 public class PhotosList extends Fragment  {
 
     private String[] lstEstados;
