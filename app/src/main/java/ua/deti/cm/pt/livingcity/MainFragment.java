@@ -74,13 +74,15 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
 
-
+        // O Q É ISTO?
         //debug
        // Toast toast = Toast.makeText(getActivity(), "latitude:" + getLocationName(gps.getLatitude(), gps.getLongitude()), Toast.LENGTH_SHORT);
        // toast.show();
 
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Aveiro").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        //DESCOMENTAR ISTO + O GET E TESTAR...//googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Hora:"+fbDataInHour.get(0)+"/n"+"Temp:"+fbDataInHour.get(1)+"/n"+"Humidade:"+fbDataInHour.get(2)+"/n").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
 
     }
