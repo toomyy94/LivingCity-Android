@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,9 +28,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import ua.deti.cm.pt.livingcity.modules.FireBaseDataClass;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
@@ -56,14 +63,6 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
 
-        FireBaseModule fb = new FireBaseModule();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDateandTime = sdf.format(new Date());
-
-        ArrayList<String> fbDataInHour = new ArrayList<>();
-
-        //fbDataInHour = fb.getFirebaseData(currentDateandTime);
-
         return v;
     }
 
@@ -79,9 +78,17 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
        // Toast toast = Toast.makeText(getActivity(), "latitude:" + getLocationName(gps.getLatitude(), gps.getLongitude()), Toast.LENGTH_SHORT);
        // toast.show();
 
+        FireBaseModule fb = new FireBaseModule();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateandTime = sdf.format(new Date());
+
+        ArrayList<String> fbDataInHour = new ArrayList<>();
+
+        //fbDataInHour = fb.getFirebaseData(currentDateandTime);
+
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Aveiro").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-        //DESCOMENTAR ISTO + O GET E TESTAR...//googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Hora:"+fbDataInHour.get(0)+"/n"+"Temp:"+fbDataInHour.get(1)+"/n"+"Humidade:"+fbDataInHour.get(2)+"/n").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        //googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Hora:"+fbDataInHour.get(0)+"/n"+"Temp:"+fbDataInHour.get(1)+"/n"+"Humidade:"+fbDataInHour.get(2)+"/n").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
 
