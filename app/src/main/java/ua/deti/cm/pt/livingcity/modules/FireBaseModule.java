@@ -7,7 +7,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,45 +25,42 @@ public class FireBaseModule {
 
     }
 
-    public void addValuesFireBase(String temperature, String humidade, double latitude, double longitude, String hora){
+    public void addValuesFireBase(String temperature, String humidade, double latitude, double longitude, String currentDateandTime){
         mRef = new Firebase("https://livingcityapp.firebaseio.com");
 
-        Firebase usersRef = mRef.child(hora);
+        Firebase usersRef = mRef.child(currentDateandTime);
+
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+        String currenthora = hora.format(new Date());
 
         Map<String, String> map = new HashMap<>();
         map.put("Temperature",temperature);
         map.put("Humidade", humidade);
+        map.put("Hora",currenthora);
         map.put("Latitude", Double.toString(latitude));
         map.put("Longitude", Double.toString(longitude));
 
-        usersRef.setValue(map);
+        Map<String, Map<String,String>> mapaCompleto = new HashMap<>();
+        mapaCompleto.put(currenthora, map);
+
+        usersRef.setValue(mapaCompleto);
     }
 
 
 
 
-    public void getFirebaseData(String hora){
+    public ArrayList<String> getFirebaseData(String currentDateandTime){
         //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com");
 
-        Firebase usersRef = mRef.child("20160330");
-
-        //descomentar para por numa text view
-        // fireData = (TextView) findViewById(R.id.firedata);
+        Firebase usersRef = mRef.child(currentDateandTime);
+        Map<String, Map<String,String>> mapaCompleto = new HashMap<>();
 
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, String> map = dataSnapshot.getValue(Map.class);
+                Map<String, Map<String,String>> mapaCompleto = dataSnapshot.getValue(Map.class);
 
-                String tmphumidade = map.get("Humidade");
-
-
-                Log.i("FAS", tmphumidade);
-
-                //...
-                //descomentar para por numa text view
-                // fireData.setText(tmphora);
             }
 
             @Override
@@ -67,6 +68,20 @@ public class FireBaseModule {
 
             }
         });
+
+        ArrayList<String> fbDataInHour = new ArrayList<>();
+
+        for ( String key : mapaCompleto.keySet() ) {
+            String hora = ((HashMap<String, String>)mapaCompleto.get(key)).get("Hora").toString();
+            String temp = ((HashMap<String, String>)mapaCompleto.get(key)).get("Temperature").toString();
+            String humi = ((HashMap<String, String>)mapaCompleto.get(key)).get("Humidade").toString();
+            fbDataInHour.add(hora);
+            fbDataInHour.add(temp);
+            fbDataInHour.add(humi);
+        }
+
+        return fbDataInHour;
     }
+
 
 }

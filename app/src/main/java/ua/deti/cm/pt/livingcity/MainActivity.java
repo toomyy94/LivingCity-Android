@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity
 
             //Por dados reais na firebase
             if(mandar1vez_parafirebase==1){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String currentDateandTime = sdf.format(new Date());
                 FireBaseModule fbm = new FireBaseModule();
                 fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
@@ -656,9 +656,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+    drawer.closeDrawer(GravityCompat.START);
+    return true;
+}
 
     private boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);

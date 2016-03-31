@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -56,8 +57,12 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
 
         FireBaseModule fb = new FireBaseModule();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateandTime = sdf.format(new Date());
 
-        fb.getFirebaseData("das") ;
+        ArrayList<String> fbDataInHour = new ArrayList<>();
+
+        //fbDataInHour = fb.getFirebaseData(currentDateandTime);
 
         return v;
     }
