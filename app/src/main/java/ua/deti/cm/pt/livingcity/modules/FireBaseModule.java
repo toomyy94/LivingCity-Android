@@ -33,7 +33,7 @@ public class FireBaseModule {
         SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
         String currenthora = hora.format(new Date());
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("Temperature",temperature);
         map.put("Humidade", humidade);
         map.put("Hora",currenthora);
@@ -46,34 +46,39 @@ public class FireBaseModule {
         usersRef.updateChildren(mapaCompleto);
     }
 
-    public ArrayList<String> getFirebaseData(String currentDateandTime){
+    public List<FireBaseDataClass> getFirebaseData_CurrentDay(String currentDateandTime){
         //dummy values
-        mRef = new Firebase("https://livingcityapp.firebaseio.com");
+        mRef = new Firebase("https://livingcityapp.firebaseio.com/"+currentDateandTime);
+
+        final HashMap<String, Object> mapaCompleto = new HashMap<>();
+        final List<FireBaseDataClass>  fbDataInHour = new ArrayList<>();
+
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange (DataSnapshot usersSnapshot){
+
+                    Log.i("O NUMERO DE DADOS SAO::",usersSnapshot.getChildrenCount()+"dados");
 
 
-        Firebase usersRef = mRef.child(currentDateandTime);
-        HashMap<String, Object> mapaCompleto = new HashMap<>();
+                    for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                        String hora = userSnapshot.child("Hora").getValue(String.class);
+                        String temp =userSnapshot.child("Temperature").getValue(String.class);
+                        String humi =userSnapshot.child("Humidade").getValue(String.class);
+                        String lati =userSnapshot.child("Latitude").getValue(String.class);
+                        String longi =userSnapshot.child("Longitude").getValue(String.class);
 
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i("There are", dataSnapshot.getChildrenCount() + "dados");
+                        fbDataInHour.add(new FireBaseDataClass(hora, humi,lati,longi,temp));
 
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
 
-                    FireBaseDataClass post = postSnapshot.getValue(FireBaseDataClass.class);
-                    Log.i("o que é isto?", post.getHora()+ " - " + post.getTemperature()+ " - " + post.getHumidade());
+                    }
 
+                    Log.e("CRLHTomas", fbDataInHour.toString());
                 }
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                Log.i("The read has failed", firebaseError.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(FirebaseError firebaseError) { }
+            });
 
-        ArrayList<String> fbDataInHour = new ArrayList<>();
 //
 //        for ( String key : mapaCompleto.keySet() ) {
 //            String hora = ((HashMap<String, String>)mapaCompleto.get(key)).get("Hora").toString();
@@ -84,10 +89,10 @@ public class FireBaseModule {
 //            fbDataInHour.add(humi);
 //        }
 //
-//        Log.i("Valor da hora é:", fbDataInHour.get(0).toString());
-
+//        for(int i=0;i<fbDataInHour.size();i++) {
+//            Log.i("Valor da hora é:", fbDataInHour.get(i).toString());
+//        }
         return fbDataInHour;
     }
-
 
 }

@@ -5,33 +5,34 @@ package ua.deti.cm.pt.livingcity.modules;
  */
 public class FireBaseDataClass {
 
-        private String Hora;
-        private String Humidade;
-        private String Latitude;
-        private String Longitude;
-        private String Temperature;
+        private String hora;
+        private String humidade;
+        private String latitude;
+        private String longitude;
+        private String temperature;
 
-
-        public FireBaseDataClass() {
-            // empty default constructor, necessary for Firebase to be able to deserialize blog posts
+        public FireBaseDataClass(String hora, String humidade, String latitude, String longitude,String temperature ){
+            this.hora = hora;
+            this.humidade = humidade;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.temperature = temperature;
         }
+
         public String getHora() {
-            return Hora;
+            return hora;
         }
         public String getTemperature() {
-            return Temperature;
+            return temperature;
         }
-
         public String getHumidade() {
-              return Humidade;
+              return humidade;
         }
-
         public String getLatitude() {
-            return Latitude;
+            return latitude;
         }
+        public String getLongitude() { return longitude;}
+        public String toString() { return "User{Hora='"+hora+','+ humidade+": Humidade, "+ temperature+": Temperature";}
 
-        public String getLongitude() {
-            return Longitude;
-        }
 }
 

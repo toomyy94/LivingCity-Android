@@ -15,6 +15,7 @@ import org.xml.sax.InputSource;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 
 import android.Manifest;
@@ -60,6 +61,7 @@ import com.firebase.client.*;
 
 //import ua.deti.cm.pt.livingcity.bluetoothgatt.MainActivity2;
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
+import ua.deti.cm.pt.livingcity.modules.FireBaseDataClass;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar = null;
     private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private List<FireBaseDataClass> fbDataInHour = new ArrayList<>();
 
 
     @Override
@@ -117,9 +120,28 @@ public class MainActivity extends AppCompatActivity
         //GPS inicial
         gps = new LocationCoord(this);
 
+        FireBaseModule fb = new FireBaseModule();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateandTime = sdf.format(new Date());
 
 
 
+        fbDataInHour = fb.getFirebaseData_CurrentDay(currentDateandTime);
+
+        SystemClock.sleep(2000);
+        Log.e("sda", fbDataInHour.toString());
+
+
+
+
+
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         /*
          * Bluetooth in Android 4.3 is accessed via the BluetoothManager, rather than
@@ -140,7 +162,10 @@ public class MainActivity extends AppCompatActivity
 
 
         //fragmetn initially
-        MainFragment fragment = new MainFragment(gps);
+
+
+
+        MainFragment fragment = new MainFragment(gps, fbDataInHour);
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -170,7 +195,6 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
 
     }
@@ -643,7 +667,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            MainFragment fragment = new MainFragment(gps);
+            MainFragment fragment = new MainFragment(gps, fbDataInHour);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);

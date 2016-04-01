@@ -68,8 +68,9 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
     private GoogleMap mMap;
     private LocationCoord gps;
     private String URL=null;
-
-    public MainFragment(LocationCoord gps) {
+    private List<FireBaseDataClass> fbDataInHour = null;
+    public MainFragment(LocationCoord gps, List<FireBaseDataClass> fbDataInHour) {
+        this.fbDataInHour = fbDataInHour;
         this.gps = gps;
         URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=20&key=demo";
     }
@@ -89,7 +90,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new DownloadXML().execute(URL);
+       //new DownloadXML().execute(URL);
     }
 
     @Override
@@ -104,20 +105,22 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
        // Toast toast = Toast.makeText(getActivity(), "latitude:" + getLocationName(gps.getLatitude(), gps.getLongitude()), Toast.LENGTH_SHORT);
        // toast.show();
 
-        FireBaseModule fb = new FireBaseModule();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDateandTime = sdf.format(new Date());
-
-        ArrayList<String> fbDataInHour = new ArrayList<>();
-
-        //fbDataInHour = fb.getFirebaseData(currentDateandTime);
 
 
-        for(int i =0; i<lstItem.size(); i++) {
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
-                    title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
-                    defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        Log.e("CRLH", fbDataInHour.toString());
+
+        for(int i =0; i<fbDataInHour.size(); i++) {
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()) )).
+                    title(fbDataInHour.get(i).getTemperature()).icon(BitmapDescriptorFactory.
+                    defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         }
+
+
+//        for(int i =0; i<lstItem.size(); i++) {
+//            googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
+//                    title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
+//                    defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+//        }
 
 
 
