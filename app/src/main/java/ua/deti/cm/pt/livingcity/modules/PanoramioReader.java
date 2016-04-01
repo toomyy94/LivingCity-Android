@@ -9,6 +9,9 @@ public class PanoramioReader {
 
     public PanoramioReader(double latitude, double longitude){
 
+
     }
+
+
 
 }

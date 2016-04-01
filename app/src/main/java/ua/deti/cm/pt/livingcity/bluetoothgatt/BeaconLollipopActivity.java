@@ -196,7 +196,7 @@ public class BeaconLollipopActivity extends Activity {
         public BeaconAdapter(Context context) {
             super(context, 0);
         }
-
+/*
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -226,7 +226,7 @@ public class BeaconLollipopActivity extends Activity {
 
             return convertView;
         }
-
+*/
         private int getTemperatureColor(float temperature) {
             //Color range from 0 - 40 degC
             float clipped = Math.max(0f, Math.min(40f, temperature));

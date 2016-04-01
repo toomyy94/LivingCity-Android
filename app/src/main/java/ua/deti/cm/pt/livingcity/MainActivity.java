@@ -1,7 +1,24 @@
 package ua.deti.cm.pt.livingcity;
 
-import android.Manifest;
+
+
+import java.net.URL;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import android.Manifest;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -19,7 +36,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,7 +46,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -38,8 +53,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import com.firebase.client.*;
@@ -47,12 +61,17 @@ import com.firebase.client.*;
 //import ua.deti.cm.pt.livingcity.bluetoothgatt.MainActivity2;
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
+import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BluetoothAdapter.LeScanCallback {
 
     //Texas Sensor
+
+    NodeList nodelist;
+    ProgressDialog pDialog;
+
 
     private static final String TAG = "BluetoothGattActivity";
 
@@ -97,6 +116,10 @@ public class MainActivity extends AppCompatActivity
         Firebase.setAndroidContext(this);
         //GPS inicial
         gps = new LocationCoord(this);
+
+
+
+
 
         /*
          * Bluetooth in Android 4.3 is accessed via the BluetoothManager, rather than
@@ -669,6 +692,16 @@ public class MainActivity extends AppCompatActivity
     private void requestPermission(){
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
