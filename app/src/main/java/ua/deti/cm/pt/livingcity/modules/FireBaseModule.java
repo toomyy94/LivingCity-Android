@@ -33,52 +33,58 @@ public class FireBaseModule {
         SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
         String currenthora = hora.format(new Date());
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("Temperature",temperature);
         map.put("Humidade", humidade);
         map.put("Hora",currenthora);
         map.put("Latitude", Double.toString(latitude));
         map.put("Longitude", Double.toString(longitude));
 
-        Map<String, Map<String,String>> mapaCompleto = new HashMap<>();
+        Map<String, Object> mapaCompleto = new HashMap<>();
         mapaCompleto.put(currenthora, map);
 
-        usersRef.setValue(mapaCompleto);
+        usersRef.updateChildren(mapaCompleto);
     }
-
-
-
 
     public ArrayList<String> getFirebaseData(String currentDateandTime){
         //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com");
 
+
         Firebase usersRef = mRef.child(currentDateandTime);
-        Map<String, Map<String,String>> mapaCompleto = new HashMap<>();
+        HashMap<String, Object> mapaCompleto = new HashMap<>();
 
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, Map<String,String>> mapaCompleto = dataSnapshot.getValue(Map.class);
+                Log.i("There are", dataSnapshot.getChildrenCount() + "dados");
 
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+
+                    FireBaseDataClass post = postSnapshot.getValue(FireBaseDataClass.class);
+                    Log.i("o que é isto?", post.getHora()+ " - " + post.getTemperature()+ " - " + post.getHumidade());
+
+                }
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Log.i("The read has failed", firebaseError.getMessage());
             }
         });
 
         ArrayList<String> fbDataInHour = new ArrayList<>();
-
-        for ( String key : mapaCompleto.keySet() ) {
-            String hora = ((HashMap<String, String>)mapaCompleto.get(key)).get("Hora").toString();
-            String temp = ((HashMap<String, String>)mapaCompleto.get(key)).get("Temperature").toString();
-            String humi = ((HashMap<String, String>)mapaCompleto.get(key)).get("Humidade").toString();
-            fbDataInHour.add(hora);
-            fbDataInHour.add(temp);
-            fbDataInHour.add(humi);
-        }
+//
+//        for ( String key : mapaCompleto.keySet() ) {
+//            String hora = ((HashMap<String, String>)mapaCompleto.get(key)).get("Hora").toString();
+//            String temp = ((HashMap<String, String>)mapaCompleto.get(key)).get("Temperature").toString();
+//            String humi = ((HashMap<String, String>)mapaCompleto.get(key)).get("Humidade").toString();
+//            fbDataInHour.add(hora);
+//            fbDataInHour.add(temp);
+//            fbDataInHour.add(humi);
+//        }
+//
+//        Log.i("Valor da hora é:", fbDataInHour.get(0).toString());
 
         return fbDataInHour;
     }
