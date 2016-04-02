@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.SystemClock;
@@ -47,6 +48,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -109,7 +112,6 @@ public class MainActivity extends AppCompatActivity
     private static final int PERMISSION_REQUEST_CODE = 1;
     private List<FireBaseDataClass> fbDataInHour = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,16 +126,10 @@ public class MainActivity extends AppCompatActivity
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateandTime = sdf.format(new Date());
 
-
-
         fbDataInHour = fb.getFirebaseData_CurrentDay(currentDateandTime);
 
-        SystemClock.sleep(2000);
+        SystemClock.sleep(1500);
         Log.e("sda", fbDataInHour.toString());
-
-
-
-
 
 
     }
@@ -443,14 +439,12 @@ public class MainActivity extends AppCompatActivity
                 mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE_CAL, characteristic));
             }
 
-
             //Por dados reais na firebase
             if(mandar1vez_parafirebase==1){
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String currentDateandTime = sdf.format(new Date());
                 FireBaseModule fbm = new FireBaseModule();
                 fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
-
             }
             mandar1vez_parafirebase++;
 

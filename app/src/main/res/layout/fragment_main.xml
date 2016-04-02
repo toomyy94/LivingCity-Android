@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     tools:context="ua.deti.cm.pt.livingcity.MainFragment">
 
-
-
     <fragment
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mapa"
@@ -15,5 +13,19 @@
         class="com.google.android.gms.maps.SupportMapFragment"
         />
 
+    <CheckBox
+        android:id="@+id/chkCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="See Turistic Atractions" />
+
+    <CheckBox
+        android:id="@+id/chkSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="See sensors info" />
 
 </RelativeLayout>

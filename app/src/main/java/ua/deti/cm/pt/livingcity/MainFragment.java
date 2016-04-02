@@ -5,11 +5,15 @@ import android.annotation.SuppressLint;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -22,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -49,6 +54,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
 import ua.deti.cm.pt.livingcity.modules.FireBaseDataClass;
@@ -57,11 +63,16 @@ import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
 @SuppressLint("ValidFragment")
 public class MainFragment extends Fragment  implements OnMapReadyCallback {
+
+    private CheckBox chkCity;
+    List<Marker> sensor_markers = new ArrayList<>();
+    List<Marker> city_markers = new ArrayList<>();
     private NodeList nodelist;
     private ProgressDialog pDialog;
     private List<ItemTuristic> lstItem = null;
@@ -83,14 +94,62 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.mapa);
         mapFragment.getMapAsync(this);
 
+        CheckBox chkCity = (CheckBox) v.findViewById(R.id.chkCity);
+        chkCity.setChecked(true);
+        chkCity.setOnCheckedChangeListener(myCheckboxListener);
+
+        CheckBox chkSensor = (CheckBox) v.findViewById(R.id.chkSensor);
+        chkSensor.setChecked(true);
+        chkSensor.setOnCheckedChangeListener(myCheckboxListener);
+
+
         return v;
     }
+
+    private CompoundButton.OnCheckedChangeListener myCheckboxListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            switch (buttonView.getId()){
+                case R.id.chkCity:
+                    if (isChecked == true) {
+
+                        for (int i = 0; i < city_markers.size(); i++) {
+                            city_markers.get(i).setVisible(false);
+                        }
+
+                    } else {
+                        for (int i = 0; i < city_markers.size(); i++){
+                            city_markers.get(i).setVisible(true);
+                        }
+
+                    }
+                    break;
+                case R.id.chkSensor:
+                    if (isChecked == true) {
+                        for (int i = 0; i < sensor_markers.size(); i++) {
+                            sensor_markers.get(i).setVisible(false);
+                        }
+
+                    } else {
+                        for (int i = 0; i < sensor_markers.size(); i++){
+                            sensor_markers.get(i).setVisible(true);
+                        }
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       //new DownloadXML().execute(URL);
+        new DownloadXML().execute(URL);
+        SystemClock.sleep(2000);
+        chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
     }
 
     @Override
@@ -99,33 +158,26 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-
-        // O Q É ISTO?
-        //debug
-       // Toast toast = Toast.makeText(getActivity(), "latitude:" + getLocationName(gps.getLatitude(), gps.getLongitude()), Toast.LENGTH_SHORT);
-       // toast.show();
-
-
-
-        Log.e("CRLH", fbDataInHour.toString());
-
+        //firebase
         for(int i =0; i<fbDataInHour.size(); i++) {
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()) )).
-                    title(fbDataInHour.get(i).getTemperature()).icon(BitmapDescriptorFactory.
-                    defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+            if(fbDataInHour.size()==0 || fbDataInHour==null)  SystemClock.sleep(600);
+            else{
+                sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
+                        title(fbDataInHour.get(i).getHora().substring(5) + ": Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidade - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
+                        defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
+            }
         }
 
+        //xml
+        for(int i =0; i<lstItem.size(); i++) {
+            if(lstItem.size()==0 || lstItem==null) SystemClock.sleep(600);
+            else {
+                city_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
+                        title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
+                        defaultMarker(BitmapDescriptorFactory.HUE_RED))));
+            }
 
-//        for(int i =0; i<lstItem.size(); i++) {
-//            googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
-//                    title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
-//                    defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-//        }
-
-
-
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Estou aqui!").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-        //googleMap.addMarker(new MarkerOptions().position(new LatLng(gps.getLatitude(), gps.getLongitude())).title("Hora:"+fbDataInHour.get(0)+"/n"+"Temp:"+fbDataInHour.get(1)+"/n"+"Humidade:"+fbDataInHour.get(2)+"/n").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
 
