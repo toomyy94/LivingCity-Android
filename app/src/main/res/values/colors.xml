@@ -15,5 +15,7 @@
     <color name="colorDivider">#B6B6B6</color>
     <color name="colorMenu">#008000</color>
     <color name="colorMenuOlive">#808000</color>
+    <color name="whiteTransparent">#50ffffff</color>
+
 
 </resources>
