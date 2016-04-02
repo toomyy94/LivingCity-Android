@@ -18,14 +18,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
+        android:layout_alignParentRight="true"
         android:text="See Turistic Atractions" />
 
     <CheckBox
         android:id="@+id/chkSensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginTop="7pt"
+        android:layout_alignParentRight="true"
         android:text="See sensors info" />
 
 </RelativeLayout>

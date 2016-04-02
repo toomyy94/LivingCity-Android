@@ -25,6 +25,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -70,9 +72,10 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 @SuppressLint("ValidFragment")
 public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
+    private List<Circle> mCircle = new ArrayList<>();;
     private CheckBox chkCity;
-    List<Marker> sensor_markers = new ArrayList<>();
-    List<Marker> city_markers = new ArrayList<>();
+    private List<Marker> sensor_markers = new ArrayList<>();
+    private List<Marker> city_markers = new ArrayList<>();
     private NodeList nodelist;
     private ProgressDialog pDialog;
     private List<ItemTuristic> lstItem = null;
@@ -111,7 +114,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             switch (buttonView.getId()){
                 case R.id.chkCity:
-                    if (isChecked == true) {
+                    if (isChecked == false) {
 
                         for (int i = 0; i < city_markers.size(); i++) {
                             city_markers.get(i).setVisible(false);
@@ -125,14 +128,16 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
                     }
                     break;
                 case R.id.chkSensor:
-                    if (isChecked == true) {
+                    if (isChecked == false) {
                         for (int i = 0; i < sensor_markers.size(); i++) {
                             sensor_markers.get(i).setVisible(false);
+                            mCircle.get(i).setVisible(false);
                         }
 
                     } else {
                         for (int i = 0; i < sensor_markers.size(); i++){
                             sensor_markers.get(i).setVisible(true);
+                            mCircle.get(i).setVisible(true);
                         }
 
                     }
@@ -147,8 +152,9 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new DownloadXML().execute(URL);
-        SystemClock.sleep(2000);
+        //ATENÇÃO VER...
+        //new DownloadXML().execute(URL);
+        //SystemClock.sleep(1000);
         chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
     }
 
@@ -162,22 +168,43 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         for(int i =0; i<fbDataInHour.size(); i++) {
             if(fbDataInHour.size()==0 || fbDataInHour==null)  SystemClock.sleep(600);
             else{
+                //markers
                 sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                        title(fbDataInHour.get(i).getHora().substring(5) + ": Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidade - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
+                        title((fbDataInHour.get(i).getHora().substring(0,5)) + ": Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidade - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
                         defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
+
+                //circles around markers
+                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<9) {
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
+                }
+                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<13) {
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.colorAccent).strokeColor(R.color.colorAccent).strokeWidth(8)));
+                }
+                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<18) {
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(8)));
+                }
+                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<23) {
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(8)));
+                }
+                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=23 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<28) {
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(8)));
+                }
+                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>28) {
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.colorPrimary).strokeColor(R.color.colorPrimary).strokeWidth(8)));
+                }
             }
         }
 
-        //xml
-        for(int i =0; i<lstItem.size(); i++) {
-            if(lstItem.size()==0 || lstItem==null) SystemClock.sleep(600);
-            else {
-                city_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
-                        title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
-                        defaultMarker(BitmapDescriptorFactory.HUE_RED))));
-            }
-
-        }
+        //xml ATENÇÃO VER...
+//        for(int i =0; i<lstItem.size(); i++) {
+//            if(lstItem.size()==0 || lstItem==null) SystemClock.sleep(600);
+//            else {
+//                city_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
+//                        title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
+//                        defaultMarker(BitmapDescriptorFactory.HUE_RED))));
+//            }
+//
+//        }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
 
@@ -213,6 +240,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
                 doc.getDocumentElement().normalize();
                 // Locate the Tag Name
                 nodelist = doc.getElementsByTagName("item");
+                SystemClock.sleep(1000);
 
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
@@ -226,8 +254,8 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         protected void onPostExecute(Void args) {
 
             lstItem =  new ArrayList<>();
-
             for (int temp = 0; temp < nodelist.getLength(); temp++) {
+
                 Node nNode = nodelist.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;

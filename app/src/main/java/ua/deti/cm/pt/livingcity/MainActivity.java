@@ -553,6 +553,16 @@ public class MainActivity extends AppCompatActivity
         double temp = SensorTagData.extractBarTemperature(characteristic, mPressureCals);
 
         mTemperature = String.format("%.1f\u00B0C", temp);
+        //Case uma unidade
+        if(mTemperature.length()==5){
+            Log.i("Temperature",mTemperature.length()+"");
+            mTemperature = "0"+mTemperature;
+        }
+        //Caso temperaturas negativas
+        else if(mTemperature.contains("-")){
+            mTemperature = mTemperature.substring(1,mTemperature.length());
+        }
+
         Log.i("Valor da temp é:",mTemperature);
 
     }
