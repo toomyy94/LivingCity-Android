@@ -61,6 +61,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import ua.deti.cm.pt.livingcity.modules.FireBaseDataClass;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
+import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
@@ -72,22 +73,29 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 @SuppressLint("ValidFragment")
 public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
+    //On Map View
     private List<Circle> mCircle = new ArrayList<>();;
     private CheckBox chkCity;
-    private List<Marker> sensor_markers = new ArrayList<>();
-    private List<Marker> city_markers = new ArrayList<>();
-    private NodeList nodelist;
-    private ProgressDialog pDialog;
+    private List<Marker> sensor_markers = new ArrayList<>(); //sensor(amarelos)
+    private List<Marker> city_markers = new ArrayList<>(); //turistic(vermelhos)
+    private List<Marker> stations_markers = new ArrayList<>(); //stations(verdes)
     private List<ItemTuristic> lstItem = null;
     private GoogleMap mMap;
     private LocationCoord gps;
     private String URL=null;
+    private NodeList nodelist;
+    private ProgressDialog pDialog;
+
+    //On Firebase Get's
     private List<FireBaseDataClass> fbDataInHour = null;
-    public MainFragment(LocationCoord gps, List<FireBaseDataClass> fbDataInHour) {
-        this.fbDataInHour = fbDataInHour;
+    private List<FireBaseStationsData> fbDataInStations = null;
+
+
+    public MainFragment(LocationCoord gps) {
         this.gps = gps;
         URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=20&key=demo";
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,6 +112,10 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         CheckBox chkSensor = (CheckBox) v.findViewById(R.id.chkSensor);
         chkSensor.setChecked(true);
         chkSensor.setOnCheckedChangeListener(myCheckboxListener);
+
+        CheckBox chkStations = (CheckBox) v.findViewById(R.id.chkStations);
+        chkStations.setChecked(true);
+        chkStations.setOnCheckedChangeListener(myCheckboxListener);
 
 
         return v;
@@ -142,6 +154,19 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
                     }
                     break;
+                case R.id.chkStations:
+                    if (isChecked == false) {
+                        for (int i = 0; i < stations_markers.size(); i++) {
+                            stations_markers.get(i).setVisible(false);
+                        }
+
+                    } else {
+                        for (int i = 0; i < stations_markers.size(); i++){
+                            stations_markers.get(i).setVisible(true);
+                        }
+
+                    }
+                    break;
                 default:
                     break;
             }
@@ -156,6 +181,19 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         //new DownloadXML().execute(URL);
         //SystemClock.sleep(1000);
         chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
+
+        //Firebase inicial
+        //Firebase.setAndroidContext(this);
+
+        FireBaseModule fb = new FireBaseModule();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateandTime = sdf.format(new Date());
+
+        fbDataInHour = fb.getFirebaseData_CurrentDay(currentDateandTime);
+        fbDataInStations = fb.getFirebaseStations();
+
+        SystemClock.sleep(1500);
+        Log.e("sda", fbDataInHour.toString());
     }
 
     @Override
@@ -192,6 +230,15 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>28) {
                     mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.colorPrimary).strokeColor(R.color.colorPrimary).strokeWidth(8)));
                 }
+            }
+        }
+
+        for(int i =0; i<fbDataInStations.size(); i++) {
+            if (fbDataInStations.size() == 0 || fbDataInStations == null) SystemClock.sleep(600);
+            else {
+                stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
+                        title((fbDataInStations.get(i).getNome_actual())).icon(BitmapDescriptorFactory.
+                        defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
             }
         }
 

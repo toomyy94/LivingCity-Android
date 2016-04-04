@@ -50,7 +50,6 @@ public class FireBaseModule {
         //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com/"+currentDateandTime);
 
-        final HashMap<String, Object> mapaCompleto = new HashMap<>();
         final List<FireBaseDataClass>  fbDataInHour = new ArrayList<>();
 
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -79,20 +78,44 @@ public class FireBaseModule {
                 public void onCancelled(FirebaseError firebaseError) { }
             });
 
-//
-//        for ( String key : mapaCompleto.keySet() ) {
-//            String hora = ((HashMap<String, String>)mapaCompleto.get(key)).get("Hora").toString();
-//            String temp = ((HashMap<String, String>)mapaCompleto.get(key)).get("Temperature").toString();
-//            String humi = ((HashMap<String, String>)mapaCompleto.get(key)).get("Humidade").toString();
-//            fbDataInHour.add(hora);
-//            fbDataInHour.add(temp);
-//            fbDataInHour.add(humi);
-//        }
-//
-//        for(int i=0;i<fbDataInHour.size();i++) {
-//            Log.i("Valor da hora é:", fbDataInHour.get(i).toString());
-//        }
         return fbDataInHour;
+    }
+
+    public List<FireBaseStationsData> getFirebaseStations(){
+        //dummy values
+        mRef = new Firebase("https://livingcityapp.firebaseio.com/Polluent_Stations");
+
+        final List<FireBaseStationsData>  fbDataInStations = new ArrayList<>();
+
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange (DataSnapshot usersSnapshot){
+
+                Log.i("O NUMERO DE DADOS SAO::",usersSnapshot.getChildrenCount()+"dados");
+
+
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    String ambiente = userSnapshot.child("Ambiente").getValue(String.class);
+                    String concelho =userSnapshot.child("Concelho").getValue(String.class);
+                    String influ = userSnapshot.child("Influencia").getValue(String.class);
+                    Double lati = userSnapshot.child("LAT").getValue(Double.class);
+                    Double longi = userSnapshot.child("LON").getValue(Double.class);
+                    String nome = userSnapshot.child("Nome actual").getValue(String.class);
+
+                    fbDataInStations.add(new FireBaseStationsData(ambiente, concelho,influ,lati,longi,nome));
+
+
+                }
+
+                Log.e("CRLHTomas", fbDataInStations.toString());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) { }
+        });
+
+
+        return fbDataInStations;
     }
 
 }

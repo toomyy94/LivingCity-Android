@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar = null;
     private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private List<FireBaseDataClass> fbDataInHour = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,17 +120,6 @@ public class MainActivity extends AppCompatActivity
         Firebase.setAndroidContext(this);
         //GPS inicial
         gps = new LocationCoord(this);
-
-        FireBaseModule fb = new FireBaseModule();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDateandTime = sdf.format(new Date());
-
-        fbDataInHour = fb.getFirebaseData_CurrentDay(currentDateandTime);
-
-        SystemClock.sleep(1500);
-        Log.e("sda", fbDataInHour.toString());
-
-
     }
 
 
@@ -159,9 +147,7 @@ public class MainActivity extends AppCompatActivity
 
         //fragmetn initially
 
-
-
-        MainFragment fragment = new MainFragment(gps, fbDataInHour);
+        MainFragment fragment = new MainFragment(gps);
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -671,7 +657,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            MainFragment fragment = new MainFragment(gps, fbDataInHour);
+            MainFragment fragment = new MainFragment(gps);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
