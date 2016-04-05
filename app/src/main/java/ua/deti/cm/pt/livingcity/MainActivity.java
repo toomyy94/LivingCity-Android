@@ -2,24 +2,10 @@ package ua.deti.cm.pt.livingcity;
 
 
 
-import java.net.URL;
-import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.json.JSONArray;
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.util.Log;
 
 import android.Manifest;
@@ -51,39 +37,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import com.firebase.client.*;
+import com.google.android.gms.maps.model.Marker;
 
 //import ua.deti.cm.pt.livingcity.bluetoothgatt.MainActivity2;
-import ua.deti.cm.pt.livingcity.PolluentInfo.api.JSONParser;
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
-import ua.deti.cm.pt.livingcity.modules.FireBaseDataClass;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
-import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
+import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BluetoothAdapter.LeScanCallback {
 
-    //Texas Sensor
 
     NodeList nodelist;
     ProgressDialog pDialog;
 
-
+    //Texas Sensor
     private static final String TAG = "BluetoothGattActivity";
-
     private static final String DEVICE_NAME = "SensorTag";
 
     /* Humidity Service */
@@ -115,6 +97,9 @@ public class MainActivity extends AppCompatActivity
     private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    //Firebase stations
+    private List<FireBaseStationsData> fbDataInStations = null;
+
     //URL to get JSON Array
     private static String url = "http://192.168.33.10:8000/api/v1/compare_data/hour/sample/2016/02/10/?format=json";
 
@@ -127,37 +112,11 @@ public class MainActivity extends AppCompatActivity
 
         //Firebase inicial
         Firebase.setAndroidContext(this);
+        FireBaseModule fb = new FireBaseModule();
+        fbDataInStations = fb.getFirebaseStations();
+
         //GPS inicial
         gps = new LocationCoord(this);
-
-        // Creating new JSON Parser
-//        JSONParser jParser = new JSONParser();
-//
-//        // Getting JSON from URL
-//        JSONObject json = jParser.getJSONFromUrl(url);
-//
-//        try {
-//            // Getting JSON Array
-//            user = json.getJSONArray("");
-//            JSONObject row = user.getJSONObject(0);
-//            Log.i("row:!!!",row.toString());
-//
-//            // Storing  JSON item in a Variable
-//            String month =        String.valueOf(row.getInt("month"));
-//            String hour =         String.valueOf(row.getInt("hour"));
-//            String year =         String.valueOf(row.getInt("year"));
-//            String station =      String.valueOf(row.getInt("station"));
-//            String day =          String.valueOf(row.getInt("day"));
-//            String observed =     String.valueOf(row.getDouble("observed"));
-//            String modulated =    String.valueOf(row.getDouble("modulated"));
-//            String pollutant =    String.valueOf(row.getInt("pollutant"));
-//            String compareData =  String.valueOf(row.getDouble("compareData"));
-//            Log.i("tag:!!!",month);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-
    }
 
     @Override
@@ -715,7 +674,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_slideshow) {
-            SensorFragment fragment = new SensorFragment(gps);
+            SensorFragment fragment = new SensorFragment(gps, fbDataInStations);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);

@@ -3,7 +3,7 @@ package ua.deti.cm.pt.livingcity.modules;
 /**
  * Created by Tomás on 01/04/2016.
  */
-public class FireBaseDataClass {
+public class FireBaseSensorData {
 
         private String hora;
         private String humidade;
@@ -11,7 +11,7 @@ public class FireBaseDataClass {
         private String longitude;
         private String temperature;
 
-        public FireBaseDataClass(String hora, String humidade, String latitude, String longitude,String temperature ){
+        public FireBaseSensorData(String hora, String humidade, String latitude, String longitude, String temperature){
             this.hora = hora;
             this.humidade = humidade;
             this.latitude = latitude;

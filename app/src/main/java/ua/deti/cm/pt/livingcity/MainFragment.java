@@ -2,8 +2,6 @@ package ua.deti.cm.pt.livingcity;
 
 
 import android.annotation.SuppressLint;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -11,15 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,17 +23,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -50,21 +36,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import android.app.Activity;
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
-import ua.deti.cm.pt.livingcity.PolluentInfo.apaviewer.ComparationData;
-import ua.deti.cm.pt.livingcity.PolluentInfo.apaviewer.PolluentData;
-import ua.deti.cm.pt.livingcity.PolluentInfo.models.Pollutant;
-import ua.deti.cm.pt.livingcity.modules.FireBaseDataClass;
+import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
-import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
@@ -90,7 +68,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
     private ProgressDialog pDialog;
 
     //On Firebase Get's
-    private List<FireBaseDataClass> fbDataInHour = null;
+    private List<FireBaseSensorData> fbDataInHour = null;
 //    private List<FireBaseStationsData> fbDataInStations = null;
 //    //Polluent
 //    public ComparationData comparated_data = new ComparationData();
@@ -238,19 +216,21 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<13) {
                     mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.colorAccent).strokeColor(R.color.colorAccent).strokeWidth(6)));
+                    Log.i("temp no circle: ", (fbDataInHour.get(i).getTemperature().substring(0, 2)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<18) {
                     mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
-                    Log.i("temperatura no circle: ", (fbDataInHour.get(i).getTemperature().substring(0,2)));
+                    Log.i("temp no circle2: ", (fbDataInHour.get(i).getTemperature().substring(0,2)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<23) {
                     mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6)));
+                    Log.i("temp no circle3: ", (fbDataInHour.get(i).getTemperature().substring(0, 2)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=23 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<28) {
                     mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>28) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.colorPrimary).strokeColor(R.color.colorPrimary).strokeWidth(6)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
                 }
             }
         }

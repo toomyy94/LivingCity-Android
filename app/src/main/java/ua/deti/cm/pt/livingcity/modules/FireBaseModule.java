@@ -46,37 +46,38 @@ public class FireBaseModule {
         usersRef.updateChildren(mapaCompleto);
     }
 
-    public List<FireBaseDataClass> getFirebaseData_CurrentDay(String currentDateandTime){
+    public List<FireBaseSensorData> getFirebaseData_CurrentDay(String currentDateandTime){
         //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com/"+currentDateandTime);
 
-        final List<FireBaseDataClass>  fbDataInHour = new ArrayList<>();
+        final List<FireBaseSensorData>  fbDataInHour = new ArrayList<>();
 
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange (DataSnapshot usersSnapshot){
+            @Override
+            public void onDataChange(DataSnapshot usersSnapshot) {
 
-                    Log.i("O Nº de medições é:",usersSnapshot.getChildrenCount()+"dados");
-
-
-                    for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
-                        String hora = userSnapshot.child("Hora").getValue(String.class);
-                        String temp =userSnapshot.child("Temperature").getValue(String.class);
-                        String humi =userSnapshot.child("Humidade").getValue(String.class);
-                        String lati =userSnapshot.child("Latitude").getValue(String.class);
-                        String longi =userSnapshot.child("Longitude").getValue(String.class);
-
-                        fbDataInHour.add(new FireBaseDataClass(hora, humi,lati,longi,temp));
+                Log.i("O Nº de medições é:", usersSnapshot.getChildrenCount() + "dados");
 
 
-                    }
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    String hora = userSnapshot.child("Hora").getValue(String.class);
+                    String temp = userSnapshot.child("Temperature").getValue(String.class);
+                    String humi = userSnapshot.child("Humidade").getValue(String.class);
+                    String lati = userSnapshot.child("Latitude").getValue(String.class);
+                    String longi = userSnapshot.child("Longitude").getValue(String.class);
 
-                    Log.e("Firebase Sensors: ", fbDataInHour.toString());
+                    fbDataInHour.add(new FireBaseSensorData(hora, humi, lati, longi, temp));
+
+
                 }
 
-                @Override
-                public void onCancelled(FirebaseError firebaseError) { }
-            });
+                Log.e("Firebase Sensors: ", fbDataInHour.toString());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
 
         return fbDataInHour;
     }
@@ -112,6 +113,36 @@ public class FireBaseModule {
 
 
         return fbDataInStations;
+    }
+
+    public List<FirebaseDistrictsData> getFirebaseDistricts(){
+        //dummy values
+        mRef = new Firebase("https://livingcityapp.firebaseio.com/Portugal%20Districts/features");
+
+        final List<FirebaseDistrictsData>  fbDataInDistricts = new ArrayList<>();
+
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange (DataSnapshot usersSnapshot){
+
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    Double lati = userSnapshot.child("LAT").getValue(Double.class);
+                    Double longi = userSnapshot.child("LON").getValue(Double.class);
+                    String nome = userSnapshot.child("Nome actual").getValue(String.class);
+
+                    fbDataInDistricts.add(new FirebaseDistrictsData(lati,longi,nome));
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) { }
+        });
+
+
+        return fbDataInDistricts;
     }
 
 }

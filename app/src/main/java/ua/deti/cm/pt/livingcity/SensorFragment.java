@@ -3,7 +3,6 @@ package ua.deti.cm.pt.livingcity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -11,8 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,30 +17,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import ua.deti.cm.pt.livingcity.modules.FireBaseDataClass;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
-import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 
@@ -59,6 +43,7 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
 //    private List<Marker> sensor_markers = new ArrayList<>(); //sensor(amarelos)
 //    private List<Marker> city_markers = new ArrayList<>(); //turistic(vermelhos)
     private List<Marker> stations_markers = new ArrayList<>(); //stations(verdes)
+
 //    private List<ItemTuristic> lstItem = null;
     private GoogleMap mMap;
     private LocationCoord gps;
@@ -67,14 +52,15 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
     private ProgressDialog pDialog;
 
     //On Firebase Get's
-    //private List<FireBaseDataClass> fbDataInHour = null;
+    //private List<FireBaseSensorData> fbDataInHour = null;
     private List<FireBaseStationsData> fbDataInStations = null;
 //    //Polluent
 //    public ComparationData comparated_data = new ComparationData();
 //    List<Pollutant> comparated_data_polluentes = this.comparated_data.getPollutants();
 
 
-    public SensorFragment(LocationCoord gps) {
+    public SensorFragment(LocationCoord gps, List<FireBaseStationsData> fbDataInStations) {
+        this.fbDataInStations = fbDataInStations;
         this.gps = gps;
         URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=20&key=demo";
     }
@@ -172,7 +158,7 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
 //        String currentDateandTime = sdf.format(new Date());
 //
 //        fbDataInHour = fb.getFirebaseData_CurrentDay(currentDateandTime);
-        fbDataInStations = fb.getFirebaseStations();
+
 
         SystemClock.sleep(2000);
 
@@ -237,26 +223,6 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
                 stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
                         title((fbDataInStations.get(i).getNome_actual())).icon(BitmapDescriptorFactory.
                         defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
-
-//                //circles around markers
-//                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<9) {
-//                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
-//                }
-//                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<13) {
-//                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.colorAccent).strokeColor(R.color.colorAccent).strokeWidth(8)));
-//                }
-//                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<18) {
-//                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(8)));
-//                }
-//                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<23) {
-//                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(8)));
-//                }
-//                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=23 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<28) {
-//                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(8)));
-//                }
-//                else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>28) {
-//                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.colorPrimary).strokeColor(R.color.colorPrimary).strokeWidth(8)));
-//                }
             }
         }
 
