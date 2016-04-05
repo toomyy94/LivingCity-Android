@@ -3,13 +3,13 @@ package ua.deti.cm.pt.livingcity.modules;
 /**
  * Created by tomas on 05-04-2016.
  */
-public class FirebaseDistrictsData {
+public class FireBaseDistrictsData {
 
     private Double LAT;
     private Double LON;
     private String Distrito;
 
-    public FirebaseDistrictsData(Double LAT, Double LON, String Distrito){
+    public FireBaseDistrictsData(Double LAT, Double LON, String Distrito){
         this.LAT = LAT;
         this.LON = LON;
         this.Distrito = Distrito;

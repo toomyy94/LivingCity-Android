@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -166,16 +167,14 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
 
         //Firebase inicial
-        //Firebase.setAndroidContext(this);
-
         FireBaseModule fb = new FireBaseModule();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateandTime = sdf.format(new Date());
 
         fbDataInHour = fb.getFirebaseData_CurrentDay(currentDateandTime);
-//        fbDataInStations = fb.getFirebaseStations();
+        //fbDataInStations = fb.getFirebaseStations();
 
-        SystemClock.sleep(2000);
+        //SystemClock.sleep(2000);
 
         //Polluent info:
 //        double obsValue;
@@ -201,7 +200,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        //firebase
+        //firebase Sensor & Circles
         for(int i =0; i<fbDataInHour.size(); i++) {
             if(fbDataInHour.size()==0 || fbDataInHour==null)  SystemClock.sleep(600);
             else{
@@ -212,25 +211,25 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
                 //circles around markers
                 if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<9) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
+                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<13) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.colorAccent).strokeColor(R.color.colorAccent).strokeWidth(6)));
+                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.colorAccent).strokeColor(R.color.colorAccent).strokeWidth(6));
                     Log.i("temp no circle: ", (fbDataInHour.get(i).getTemperature().substring(0, 2)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<18) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
+                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6));
                     Log.i("temp no circle2: ", (fbDataInHour.get(i).getTemperature().substring(0,2)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<23) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6)));
+                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6));
                     Log.i("temp no circle3: ", (fbDataInHour.get(i).getTemperature().substring(0, 2)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=23 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<28) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
+                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>28) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
+                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6));
                 }
             }
         }
@@ -244,7 +243,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 //            }
 //        }
 
-        Log.i("Dados dia de hoje: ", fbDataInHour.toString());
+//        Log.i("Dados dia de hoje: ", fbDataInHour.toString());
 
         //xml ATENÇÃO VER...
 //        for(int i =0; i<lstItem.size(); i++) {
@@ -263,71 +262,71 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
 
     // DownloadXML AsyncTask
-    private class DownloadXML extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressbar
-            pDialog = new ProgressDialog(getActivity());
-            // Set progressbar title
-            pDialog.setTitle("Android Simple XML Parsing using DOM Tutorial");
-            // Set progressbar message
-            pDialog.setMessage("Loading...");
-            pDialog.setIndeterminate(false);
-            // Show progressbar
-            pDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(String... Url) {
-            try {
-                URL url = new URL(Url[0]);
-                DocumentBuilderFactory dbf = DocumentBuilderFactory
-                        .newInstance();
-                DocumentBuilder db = dbf.newDocumentBuilder();
-                // Download the XML file
-                Document doc = db.parse(new InputSource(url.openStream()));
-                doc.getDocumentElement().normalize();
-                // Locate the Tag Name
-                nodelist = doc.getElementsByTagName("item");
-                SystemClock.sleep(1000);
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(Void args) {
-
-            lstItem =  new ArrayList<>();
-            for (int temp = 0; temp < nodelist.getLength(); temp++) {
-
-                Node nNode = nodelist.item(temp);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-
-                    lstItem.add(new ItemTuristic(getNode("name", eElement), Double.parseDouble(getNode("gps_x", eElement))
-                            ,Double.parseDouble(getNode("gps_y", eElement))));
-
-                }
-            }
-
-            pDialog.dismiss();
-        }
-    }
-
-    // getNode function
-    private static String getNode(String sTag, Element eElement) {
-        NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
-                .getChildNodes();
-        Node nValue = (Node) nlList.item(0);
-        return nValue.getNodeValue();
-    }
+//    private class DownloadXML extends AsyncTask<String, Void, Void> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressbar
+//            pDialog = new ProgressDialog(getActivity());
+//            // Set progressbar title
+//            pDialog.setTitle("Android Simple XML Parsing using DOM Tutorial");
+//            // Set progressbar message
+//            pDialog.setMessage("Loading...");
+//            pDialog.setIndeterminate(false);
+//            // Show progressbar
+//            pDialog.show();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(String... Url) {
+//            try {
+//                URL url = new URL(Url[0]);
+//                DocumentBuilderFactory dbf = DocumentBuilderFactory
+//                        .newInstance();
+//                DocumentBuilder db = dbf.newDocumentBuilder();
+//                // Download the XML file
+//                Document doc = db.parse(new InputSource(url.openStream()));
+//                doc.getDocumentElement().normalize();
+//                // Locate the Tag Name
+//                nodelist = doc.getElementsByTagName("item");
+//                SystemClock.sleep(1000);
+//
+//            } catch (Exception e) {
+//                Log.e("Error", e.getMessage());
+//                e.printStackTrace();
+//            }
+//            return null;
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void args) {
+//
+//            lstItem =  new ArrayList<>();
+//            for (int temp = 0; temp < nodelist.getLength(); temp++) {
+//
+//                Node nNode = nodelist.item(temp);
+//                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//                    Element eElement = (Element) nNode;
+//
+//                    lstItem.add(new ItemTuristic(getNode("name", eElement), Double.parseDouble(getNode("gps_x", eElement))
+//                            ,Double.parseDouble(getNode("gps_y", eElement))));
+//
+//                }
+//            }
+//
+//            pDialog.dismiss();
+//        }
+//    }
+//
+//    // getNode function
+//    private static String getNode(String sTag, Element eElement) {
+//        NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
+//                .getChildNodes();
+//        Node nValue = (Node) nlList.item(0);
+//        return nValue.getNodeValue();
+//    }
 
 
 

@@ -115,24 +115,48 @@ public class FireBaseModule {
         return fbDataInStations;
     }
 
-    public List<FirebaseDistrictsData> getFirebaseDistricts(){
+    public List<FireBaseDistrictsData> getFirebaseDistricts(){
         //dummy values
-        mRef = new Firebase("https://livingcityapp.firebaseio.com/Portugal%20Districts/features");
+        mRef = new Firebase("https://livingcityapp.firebaseio.com/Portugal_Districts/features");
 
-        final List<FirebaseDistrictsData>  fbDataInDistricts = new ArrayList<>();
+        final List<FireBaseDistrictsData>  fbDataInDistricts = new ArrayList<>();
 
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange (DataSnapshot usersSnapshot){
+                Double lat=0.0;
+                Double lon=0.0;
 
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
-                    Double lati = userSnapshot.child("LAT").getValue(Double.class);
-                    Double longi = userSnapshot.child("LON").getValue(Double.class);
-                    String nome = userSnapshot.child("Nome actual").getValue(String.class);
+                    String nome2 = userSnapshot.child("id").getValue(String.class);
+                    Log.i("distrito: ",nome2);
 
-                    fbDataInDistricts.add(new FirebaseDistrictsData(lati,longi,nome));
+                    for(DataSnapshot geometrySnap : userSnapshot.getChildren()){
+                        for(DataSnapshot cordinatesSnap : geometrySnap.getChildren()){
+                            for(DataSnapshot cordinatesfirst : cordinatesSnap.getChildren()){
+                                for(DataSnapshot cordinatessecond : cordinatesfirst.getChildren()){
+                                    //for(DataSnapshot cordinate3 : cordinatessecond.getChildren()) {
+                                        if (cordinatessecond.getChildrenCount() == 2) {
+                                            lat = cordinatessecond.child("0").getValue(Double.class);
+                                            lon = cordinatessecond.child("1").getValue(Double.class);
+                                            Log.i("lat for cima: ", lat + "");
+                                            fbDataInDistricts.add(new FireBaseDistrictsData(lat, lon, nome2));
+                                        } else{
+                                            for (DataSnapshot cordinatesthird : cordinatessecond.getChildren()) {
+                                                lat = cordinatesthird.child("0").getValue(Double.class);
+                                                lon = cordinatesthird.child("1").getValue(Double.class);
+                                                Log.i("lat for baixo: ", lat + "");
+                                                fbDataInDistricts.add(new FireBaseDistrictsData(lat, lon, nome2));
+                                            }
+                                        }
+                                    //}
+                                }
+                            }
+                        }
+                    }
 
 
+                    fbDataInDistricts.add(new FireBaseDistrictsData(lat,lon,nome2));
                 }
 
             }
