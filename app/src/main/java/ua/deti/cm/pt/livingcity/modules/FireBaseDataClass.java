@@ -32,7 +32,7 @@ public class FireBaseDataClass {
             return latitude;
         }
         public String getLongitude() { return longitude;}
-        public String toString() { return "User{Hora='"+hora+','+ humidade+": Humidade, "+ temperature+": Temperature";}
+        public String toString() { return hora+"{Hora='"+hora+','+ humidade+": Humidade, "+ temperature+": Temperature";}
 
 }
 

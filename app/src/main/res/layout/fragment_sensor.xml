@@ -4,10 +4,13 @@
     android:layout_height="match_parent"
     tools:context="ua.deti.cm.pt.livingcity.SensorFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <fragment
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mapa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Para testes sensor" />
+        tools:context="ua.deti.cm.pt.apptest.MainFragment"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        />
 
 </FrameLayout>

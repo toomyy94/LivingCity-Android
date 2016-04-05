@@ -56,7 +56,7 @@ public class FireBaseModule {
                 @Override
                 public void onDataChange (DataSnapshot usersSnapshot){
 
-                    Log.i("O NUMERO DE DADOS SAO::",usersSnapshot.getChildrenCount()+"dados");
+                    Log.i("O Nº de medições é:",usersSnapshot.getChildrenCount()+"dados");
 
 
                     for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
@@ -71,7 +71,7 @@ public class FireBaseModule {
 
                     }
 
-                    Log.e("CRLHTomas", fbDataInHour.toString());
+                    Log.e("Firebase Sensors: ", fbDataInHour.toString());
                 }
 
                 @Override
@@ -91,9 +91,6 @@ public class FireBaseModule {
             @Override
             public void onDataChange (DataSnapshot usersSnapshot){
 
-                Log.i("O NUMERO DE DADOS SAO::",usersSnapshot.getChildrenCount()+"dados");
-
-
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                     String ambiente = userSnapshot.child("Ambiente").getValue(String.class);
                     String concelho =userSnapshot.child("Concelho").getValue(String.class);
@@ -107,7 +104,6 @@ public class FireBaseModule {
 
                 }
 
-                Log.e("CRLHTomas", fbDataInStations.toString());
             }
 
             @Override
