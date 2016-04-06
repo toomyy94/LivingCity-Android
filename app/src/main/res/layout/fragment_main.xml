@@ -24,6 +24,7 @@
             android:layout_width="173dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7pt"
+            android:buttonTint="@color/colorWhite"
             android:layout_alignParentRight="true"
             android:text="See sensors info"
             android:background="@color/whiteTransparent"
@@ -34,8 +35,9 @@
             android:layout_width="173dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:buttonTint="@color/colorWhite"
             android:background="@color/whiteTransparent"
-            android:text="See Turistic Atractions"
+            android:text="See Tourist Attractions"
             android:layout_gravity="right" />
 
 

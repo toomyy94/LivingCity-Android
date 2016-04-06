@@ -1,6 +1,5 @@
 package ua.deti.cm.pt.livingcity;
 
-import org.json.JSONArray;
 import org.w3c.dom.NodeList;
 
 import android.app.ProgressDialog;
@@ -47,14 +46,13 @@ import java.util.List;
 import java.util.UUID;
 
 import com.firebase.client.*;
-import com.google.android.gms.maps.model.Marker;
 
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseDistrictsData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
-import ua.deti.cm.pt.livingcity.modules.FireBasePolluentData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
+import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 public class MainActivity extends AppCompatActivity
@@ -97,16 +95,30 @@ public class MainActivity extends AppCompatActivity
     private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    //Firebase stations&polluent
+    //Firebase stations
     private List<FireBaseStationsData> fbDataInStations = null;
     private List<FireBaseDistrictsData> fbDataInDistricts = null;
     private List<FireBaseSensorData> fbDataInHour = null;
-    private List<FireBasePolluentData> fbDataPolluent = null;
+
+    private List<ItemTuristic> lstItem = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        List<String> test = getIntent().getStringArrayListExtra("Tourist");
+
+        lstItem = new ArrayList<ItemTuristic>();
+
+        for(int i =0; i<test.size(); i++){
+            String [] splited = test.get(i).split("!");
+            lstItem.add(new ItemTuristic(splited[0], Double.parseDouble(splited[1])
+                    , Double.parseDouble(splited[2])));
+        }
+
+
 
         //Firebase inicial
         Firebase.setAndroidContext(this);
@@ -114,15 +126,11 @@ public class MainActivity extends AppCompatActivity
         fbDataInStations = fb.getFirebaseStations();
 
         FireBaseModule firebase = new FireBaseModule();
-        fbDataPolluent = firebase.getFirebasePolluent();
-
-        //de momento não funcional
-        //FireBaseModule firebase = new FireBaseModule();
-        //fbDataInDistricts = firebase.getFirebaseDistricts();
+        fbDataInDistricts = firebase.getFirebaseDistricts();
 
 
         SystemClock.sleep(1000);
-        //Log.i("ja sai do get", fbDataInDistricts.toString());
+        Log.i("ja sai do get", fbDataInDistricts.toString());
         //GPS inicial
         gps = new LocationCoord(this);
    }
@@ -150,7 +158,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //fragmetn initially
-        MainFragment fragment = new MainFragment(gps);
+        MainFragment fragment = new MainFragment(gps, lstItem);
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -653,7 +661,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -661,38 +668,51 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            MainFragment fragment = new MainFragment(gps);
+            MainFragment fragment = new MainFragment(gps, lstItem);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_gallery) {
-            PhotosList fragment = null;
-            try {
-                fragment = new PhotosList(gps);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_slideshow) {
-            SensorFragment fragment = new SensorFragment(gps, fbDataInStations, fbDataPolluent);
+            SensorFragment fragment = new SensorFragment(gps, fbDataInStations, fbDataInDistricts);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_manage) {
 
+            Configs fragment = null;
+            try {
+                fragment = new Configs(gps);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
+
         } else if (id == R.id.nav_share) {
+
+            LablsMark fragment = new LablsMark();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
 
         } else if (id == R.id.nav_send) {
+
+            About fragment = new About();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         }
 
