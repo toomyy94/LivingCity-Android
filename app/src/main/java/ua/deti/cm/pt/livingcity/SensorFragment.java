@@ -177,9 +177,6 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
         for(int i =0; i<fbDataInStations.size(); i++) {
             if (fbDataInStations.size() == 0 || fbDataInStations == null) SystemClock.sleep(600);
             else {
-                stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
-                        title((fbDataInStations.get(i).getNome_actual())).icon(BitmapDescriptorFactory.
-                        defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
                 if(fbDataPolluent.get(i).getPollutant_code().equals("PM2.5"))
                     if(fbDataPolluent.get(i).getValue()<7500)qualidade_do_ar+=1;
                 if(fbDataPolluent.get(i).getPollutant_code().equals("O3"))
@@ -189,8 +186,19 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
                 if(fbDataPolluent.get(i).getPollutant_code().equals("PM10"))
                     if(fbDataPolluent.get(i).getValue()<50)qualidade_do_ar+=1;
 
-                if(qualidade_do_ar>2) pCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).radius(10000).fillColor(R.color.colorMenu).strokeColor(R.color.colorPrimaryText).strokeWidth(8)));
-                else pCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).radius(10000).fillColor(R.color.colorMenu).strokeColor(R.color.colorPrimaryText).strokeWidth(8)));
+                if(qualidade_do_ar>2) {
+                    stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
+                            title((fbDataInStations.get(i).getNome_actual()+" - Air Quality: Good")).icon(BitmapDescriptorFactory.
+                            defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+                }
+                else {
+                    stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
+                            title((fbDataInStations.get(i).getNome_actual()+" - Air Quality: Bad")).icon(BitmapDescriptorFactory.
+                            defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+                }
+
+                if(qualidade_do_ar>2) pCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).radius(10000).fillColor(R.color.colorAccent).strokeColor(R.color.colorPrimaryText).strokeWidth(8)));
+                else pCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).radius(10000).fillColor(R.color.colorIcons).strokeColor(R.color.colorPrimaryText).strokeWidth(8)));
 
             }
         }
