@@ -61,33 +61,33 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
     private List<Marker> sensor_markers = new ArrayList<>(); //sensor(amarelos)
     private List<Marker> city_markers = new ArrayList<>(); //turistic(vermelhos)
 //    private List<Marker> stations_markers = new ArrayList<>(); //stations(verdes)
-    private List<ItemTuristic> lstItem = null;
     private GoogleMap mMap;
     private LocationCoord gps;
-    private String URL=null;
-    private NodeList nodelist;
-    private ProgressDialog pDialog;
+
 
     //On Firebase Get's
     private List<FireBaseSensorData> fbDataInHour = null;
+    private List<ItemTuristic> lstItem;
 //    private List<FireBaseStationsData> fbDataInStations = null;
 //    //Polluent
 //    public ComparationData comparated_data = new ComparationData();
 //    List<Pollutant> comparated_data_polluentes = this.comparated_data.getPollutants();
 
 
-    public MainFragment(LocationCoord gps) {
+    public MainFragment(LocationCoord gps, List<ItemTuristic> lstItem) {
         this.gps = gps;
+        this.lstItem = lstItem;
+
         //this.fbDataInHour = fbDataInHour;
-        URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=20&key=demo";
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //ATENÇÃO VER...
-        //new DownloadXML().execute(URL);
-        //SystemClock.sleep(1000);
+
+        SystemClock.sleep(1000);
         FireBaseModule fbase = new FireBaseModule();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateandTime = sdf.format(new Date());
@@ -248,88 +248,18 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
 //        Log.i("Dados dia de hoje: ", fbDataInHour.toString());
 
-        //xml ATENÇÃO VER...
-//        for(int i =0; i<lstItem.size(); i++) {
-//            if(lstItem.size()==0 || lstItem==null) SystemClock.sleep(600);
-//            else {
-//                city_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
-//                        title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
-//                        defaultMarker(BitmapDescriptorFactory.HUE_RED))));
-//            }
-//
-//        }
+        //xml to tourist attractions
+        for(int i =0; i<lstItem.size(); i++) {
+            city_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
+                    title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
+                    defaultMarker(BitmapDescriptorFactory.HUE_RED))));
+            
+        }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
 
     }
 
-
-    // DownloadXML AsyncTask
-//    private class DownloadXML extends AsyncTask<String, Void, Void> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressbar
-//            pDialog = new ProgressDialog(getActivity());
-//            // Set progressbar title
-//            pDialog.setTitle("Android Simple XML Parsing using DOM Tutorial");
-//            // Set progressbar message
-//            pDialog.setMessage("Loading...");
-//            pDialog.setIndeterminate(false);
-//            // Show progressbar
-//            pDialog.show();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(String... Url) {
-//            try {
-//                URL url = new URL(Url[0]);
-//                DocumentBuilderFactory dbf = DocumentBuilderFactory
-//                        .newInstance();
-//                DocumentBuilder db = dbf.newDocumentBuilder();
-//                // Download the XML file
-//                Document doc = db.parse(new InputSource(url.openStream()));
-//                doc.getDocumentElement().normalize();
-//                // Locate the Tag Name
-//                nodelist = doc.getElementsByTagName("item");
-//                SystemClock.sleep(1000);
-//
-//            } catch (Exception e) {
-//                Log.e("Error", e.getMessage());
-//                e.printStackTrace();
-//            }
-//            return null;
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void args) {
-//
-//            lstItem =  new ArrayList<>();
-//            for (int temp = 0; temp < nodelist.getLength(); temp++) {
-//
-//                Node nNode = nodelist.item(temp);
-//                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-//                    Element eElement = (Element) nNode;
-//
-//                    lstItem.add(new ItemTuristic(getNode("name", eElement), Double.parseDouble(getNode("gps_x", eElement))
-//                            ,Double.parseDouble(getNode("gps_y", eElement))));
-//
-//                }
-//            }
-//
-//            pDialog.dismiss();
-//        }
-//    }
-//
-//    // getNode function
-//    private static String getNode(String sTag, Element eElement) {
-//        NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
-//                .getChildNodes();
-//        Node nValue = (Node) nlList.item(0);
-//        return nValue.getNodeValue();
-//    }
 
 
 
