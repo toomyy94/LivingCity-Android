@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import org.w3c.dom.NodeList;
 
@@ -149,10 +151,18 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
                         defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
 
 
+
             }
         }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
+        for(int i =0; i<fbDataInStations.size(); i++) {
+            Polygon polygon = googleMap.addPolygon(new PolygonOptions()
+                    .add(new LatLng(0, 0), new LatLng(0, 5), new LatLng(3, 5), new LatLng(0, 0))
+                    .strokeColor(R.color.amarelo)
+                    .fillColor(R.color.amarelo));
+        }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 10));
 
     }
 

@@ -78,12 +78,51 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
     public MainFragment(LocationCoord gps) {
         this.gps = gps;
+        //this.fbDataInHour = fbDataInHour;
         URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=20&key=demo";
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //ATENÇÃO VER...
+        //new DownloadXML().execute(URL);
+        //SystemClock.sleep(1000);
+        FireBaseModule fbase = new FireBaseModule();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateandTime = sdf.format(new Date());
+
+        fbDataInHour = fbase.getFirebaseData_CurrentDay(currentDateandTime);
+
+        chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
+
+
+        //fbDataInStations = fb.getFirebaseStations();
+
+        //SystemClock.sleep(2000);
+
+        //Polluent info:
+//        double obsValue;
+//        double modValue;
+//        double comparacao;
+//        int tmpHour;
+//
+//        for(int i=0;i<comparated_data_polluentes.size();i++){
+//            tmpHour = comparated_data_polluentes.get(i).getHour();
+//            obsValue = comparated_data_polluentes.get(i).getObserved();
+//            modValue = comparated_data_polluentes.get(i).getModulated();
+//            comparacao = comparated_data_polluentes.get(i).getCompareData();
+//            Log.i("hora dentro do for: ", comparated_data_polluentes.get(i).getHour()+"");
+//        }
+//
+//
+//        Log.i("Dados Poluentes: ", comparated_data_polluentes.toString());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.mapa);
@@ -156,47 +195,11 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
             }
         }
     };
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //ATENÇÃO VER...
-        //new DownloadXML().execute(URL);
-        //SystemClock.sleep(1000);
-        chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
-
-        //Firebase inicial
-        FireBaseModule fb = new FireBaseModule();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDateandTime = sdf.format(new Date());
-
-        fbDataInHour = fb.getFirebaseData_CurrentDay(currentDateandTime);
-        //fbDataInStations = fb.getFirebaseStations();
-
-        //SystemClock.sleep(2000);
-
-        //Polluent info:
-//        double obsValue;
-//        double modValue;
-//        double comparacao;
-//        int tmpHour;
-//
-//        for(int i=0;i<comparated_data_polluentes.size();i++){
-//            tmpHour = comparated_data_polluentes.get(i).getHour();
-//            obsValue = comparated_data_polluentes.get(i).getObserved();
-//            modValue = comparated_data_polluentes.get(i).getModulated();
-//            comparacao = comparated_data_polluentes.get(i).getCompareData();
-//            Log.i("hora dentro do for: ", comparated_data_polluentes.get(i).getHour()+"");
-//        }
-//
-//
-//        Log.i("Dados Poluentes: ", comparated_data_polluentes.toString());
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        Log.i("ola:", fbDataInHour.toString());
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
@@ -206,30 +209,30 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
             else{
                 //markers
                 sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                        title((fbDataInHour.get(i).getHora().substring(0,5)) + ": Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidade - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
+                        title((fbDataInHour.get(i).getHora().substring(0, 5)+"h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
                         defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
 
                 //circles around markers
                 if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<9) {
-                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(20).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<13) {
-                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.colorAccent).strokeColor(R.color.colorAccent).strokeWidth(6));
-                    Log.i("temp no circle: ", (fbDataInHour.get(i).getTemperature().substring(0, 2)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.azul).strokeColor(R.color.azul).strokeWidth(6)));
+
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<18) {
-                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6));
-                    Log.i("temp no circle2: ", (fbDataInHour.get(i).getTemperature().substring(0,2)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
+
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<23) {
-                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6));
-                    Log.i("temp no circle3: ", (fbDataInHour.get(i).getTemperature().substring(0, 2)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6)));
+
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=23 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<28) {
-                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>28) {
-                    mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(300).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
                 }
             }
         }

@@ -52,6 +52,7 @@ import com.google.android.gms.maps.model.Marker;
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseDistrictsData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
+import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity
     //Firebase stations
     private List<FireBaseStationsData> fbDataInStations = null;
     private List<FireBaseDistrictsData> fbDataInDistricts = null;
+    private List<FireBaseSensorData> fbDataInHour = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,8 @@ public class MainActivity extends AppCompatActivity
         FireBaseModule firebase = new FireBaseModule();
         fbDataInDistricts = firebase.getFirebaseDistricts();
 
-        SystemClock.sleep(10000);
+
+        SystemClock.sleep(1000);
         Log.i("ja sai do get", fbDataInDistricts.toString());
         //GPS inicial
         gps = new LocationCoord(this);

@@ -7,14 +7,12 @@
     <item android:drawable="@drawable/logo_base3" android:duration="500" />
     <item android:drawable="@drawable/logo_base2" android:duration="500" />
     <item android:drawable="@drawable/logo_base1" android:duration="500" />
-    <item android:drawable="@drawable/logo_base5" android:duration="500" />
     <item android:drawable="@drawable/verdeall" android:duration="500" />
     <item android:drawable="@drawable/verdeall" android:duration="500" />
     <item android:drawable="@drawable/logo_base4" android:duration="500" />
     <item android:drawable="@drawable/logo_base3" android:duration="500" />
     <item android:drawable="@drawable/logo_base2" android:duration="500" />
     <item android:drawable="@drawable/logo_base1" android:duration="500" />
-    <item android:drawable="@drawable/logo_base5" android:duration="500" />
     <item android:drawable="@drawable/verdeall" android:duration="500" />
 
 </animation-list>

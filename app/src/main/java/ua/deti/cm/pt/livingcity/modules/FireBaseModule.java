@@ -50,14 +50,11 @@ public class FireBaseModule {
         //dummy values
         mRef = new Firebase("https://livingcityapp.firebaseio.com/"+currentDateandTime);
 
-        final List<FireBaseSensorData>  fbDataInHour = new ArrayList<>();
+        final List<FireBaseSensorData> fbDataInHour = new ArrayList<>();
 
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
-
-                Log.i("O Nº de medições é:", usersSnapshot.getChildrenCount() + "dados");
-
 
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                     String hora = userSnapshot.child("Hora").getValue(String.class);
@@ -68,10 +65,8 @@ public class FireBaseModule {
 
                     fbDataInHour.add(new FireBaseSensorData(hora, humi, lati, longi, temp));
 
-
                 }
 
-                Log.e("Firebase Sensors: ", fbDataInHour.toString());
             }
 
             @Override
@@ -102,7 +97,6 @@ public class FireBaseModule {
 
                     fbDataInStations.add(new FireBaseStationsData(ambiente, concelho,influ,lati,longi,nome));
 
-
                 }
 
             }
@@ -129,27 +123,24 @@ public class FireBaseModule {
 
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                     String nome2 = userSnapshot.child("id").getValue(String.class);
-                    Log.i("distrito: ",nome2);
 
                     for(DataSnapshot geometrySnap : userSnapshot.getChildren()){
                         for(DataSnapshot cordinatesSnap : geometrySnap.getChildren()){
                             for(DataSnapshot cordinatesfirst : cordinatesSnap.getChildren()){
                                 for(DataSnapshot cordinatessecond : cordinatesfirst.getChildren()){
-                                    //for(DataSnapshot cordinate3 : cordinatessecond.getChildren()) {
                                         if (cordinatessecond.getChildrenCount() == 2) {
                                             lat = cordinatessecond.child("0").getValue(Double.class);
                                             lon = cordinatessecond.child("1").getValue(Double.class);
-                                            Log.i("lat for cima: ", lat + "");
+
                                             fbDataInDistricts.add(new FireBaseDistrictsData(lat, lon, nome2));
                                         } else{
                                             for (DataSnapshot cordinatesthird : cordinatessecond.getChildren()) {
                                                 lat = cordinatesthird.child("0").getValue(Double.class);
                                                 lon = cordinatesthird.child("1").getValue(Double.class);
-                                                Log.i("lat for baixo: ", lat + "");
+
                                                 fbDataInDistricts.add(new FireBaseDistrictsData(lat, lon, nome2));
                                             }
                                         }
-                                    //}
                                 }
                             }
                         }

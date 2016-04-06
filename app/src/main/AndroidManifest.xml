@@ -30,13 +30,10 @@
             android:name=".InitialActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
-
 
         <activity android:name=".bluetoothgatt.BeaconKitKatActivity" />
         <activity android:name=".bluetoothgatt.BeaconLollipopActivity" />
