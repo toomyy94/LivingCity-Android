@@ -5,6 +5,7 @@ package ua.deti.cm.pt.livingcity.modules;
  */
 public class FireBaseStationsData {
 
+        private String code;
         private String Ambiente;
         private String Conselho;
         private String Influencia;
@@ -12,7 +13,8 @@ public class FireBaseStationsData {
         private Double LON;
         private String Nome_actual;
 
-        public FireBaseStationsData(String Ambiente, String Conselho, String Influencia, Double LAT, Double LON, String Nome_actual){
+        public FireBaseStationsData(String code, String Ambiente, String Conselho, String Influencia, Double LAT, Double LON, String Nome_actual){
+            this.code = code;
             this.Ambiente = Ambiente;
             this.Conselho = Conselho;
             this.Influencia = Influencia;
@@ -21,6 +23,7 @@ public class FireBaseStationsData {
             this.Nome_actual = Nome_actual;
         }
 
+        public String getCode() {return code;}
         public String getAmbiente() {return Ambiente;}
         public String getConselho() {
             return Conselho;

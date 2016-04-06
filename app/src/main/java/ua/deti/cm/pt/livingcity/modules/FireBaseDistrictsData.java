@@ -15,7 +15,7 @@ public class FireBaseDistrictsData {
         this.Distrito = Distrito;
     }
 
-    public String Distrito() { return Distrito;}
+    public String getDistrito() { return Distrito;}
     public Double getLAT() { return LAT;  }
     public Double getLON() { return LON;}
     public String toString() { return "Distritos{Nome='"+Distrito+','+ LAT+": LAT, "+ LON+": LON";}

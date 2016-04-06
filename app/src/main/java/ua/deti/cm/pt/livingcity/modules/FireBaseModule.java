@@ -86,6 +86,7 @@ public class FireBaseModule {
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange (DataSnapshot usersSnapshot){
+                String code = usersSnapshot.getKey();
 
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                     String ambiente = userSnapshot.child("Ambiente").getValue(String.class);
@@ -95,7 +96,7 @@ public class FireBaseModule {
                     Double longi = userSnapshot.child("LON").getValue(Double.class);
                     String nome = userSnapshot.child("Nome actual").getValue(String.class);
 
-                    fbDataInStations.add(new FireBaseStationsData(ambiente, concelho,influ,lati,longi,nome));
+                    fbDataInStations.add(new FireBaseStationsData(code, ambiente, concelho,influ,lati,longi,nome));
 
                 }
 
@@ -107,6 +108,41 @@ public class FireBaseModule {
 
 
         return fbDataInStations;
+    }
+
+    public List<FireBasePolluentData> getFirebasePolluent(){
+        //dummy values
+        mRef = new Firebase("https://livingcityapp.firebaseio.com/Pollutent_2016-04-04");
+
+        final List<FireBasePolluentData>  fbDataPolluent = new ArrayList<>();
+
+
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange (DataSnapshot usersSnapshot){
+
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    Integer dia = userSnapshot.child("day").getValue(Integer.class);
+                    Integer mes =userSnapshot.child("month").getValue(Integer.class);
+                    Integer ano = userSnapshot.child("year").getValue(Integer.class);
+                    Double value = userSnapshot.child("value").getValue(Double.class);
+                    Integer hora = userSnapshot.child("hour").getValue(Integer.class);
+                    String p_code = userSnapshot.child("pollutant/notation").getValue(String.class);
+                    String s_code = userSnapshot.child("station/code").getValue(String.class);
+
+
+                    fbDataPolluent.add(new FireBasePolluentData(mes, hora,ano,s_code,dia, value, p_code));
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) { }
+        });
+
+
+        return fbDataPolluent;
     }
 
     public List<FireBaseDistrictsData> getFirebaseDistricts(){

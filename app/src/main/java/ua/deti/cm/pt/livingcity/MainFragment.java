@@ -56,7 +56,7 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
     //On Map View
-    private List<Circle> mCircle = new ArrayList<>();;
+    private List<Circle> mCircle = new ArrayList<>();
     private CheckBox chkCity;
     private List<Marker> sensor_markers = new ArrayList<>(); //sensor(amarelos)
     private List<Marker> city_markers = new ArrayList<>(); //turistic(vermelhos)
@@ -82,6 +82,8 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=20&key=demo";
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,13 +95,14 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
         String currentDateandTime = sdf.format(new Date());
 
         fbDataInHour = fbase.getFirebaseData_CurrentDay(currentDateandTime);
+        SystemClock.sleep(2000);
 
         chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
 
 
         //fbDataInStations = fb.getFirebaseStations();
 
-        //SystemClock.sleep(2000);
+
 
         //Polluent info:
 //        double obsValue;
@@ -214,25 +217,25 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 
                 //circles around markers
                 if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<9) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<13) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.azul).strokeColor(R.color.azul).strokeWidth(6)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azul).strokeColor(R.color.azul).strokeWidth(6)));
 
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<18) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
 
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<23) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6)));
 
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=23 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<28) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
                 }
                 else if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>28) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(600).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
+                    mCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
                 }
             }
         }
@@ -259,7 +262,7 @@ public class MainFragment extends Fragment  implements OnMapReadyCallback {
 //
 //        }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 12));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 10));
 
     }
 

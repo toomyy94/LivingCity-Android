@@ -52,6 +52,7 @@ import com.google.android.gms.maps.model.Marker;
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseDistrictsData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
+import ua.deti.cm.pt.livingcity.modules.FireBasePolluentData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
@@ -96,10 +97,11 @@ public class MainActivity extends AppCompatActivity
     private LocationCoord gps = null;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    //Firebase stations
+    //Firebase stations&polluent
     private List<FireBaseStationsData> fbDataInStations = null;
     private List<FireBaseDistrictsData> fbDataInDistricts = null;
     private List<FireBaseSensorData> fbDataInHour = null;
+    private List<FireBasePolluentData> fbDataPolluent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +114,15 @@ public class MainActivity extends AppCompatActivity
         fbDataInStations = fb.getFirebaseStations();
 
         FireBaseModule firebase = new FireBaseModule();
-        fbDataInDistricts = firebase.getFirebaseDistricts();
+        fbDataPolluent = firebase.getFirebasePolluent();
+
+        //de momento não funcional
+        //FireBaseModule firebase = new FireBaseModule();
+        //fbDataInDistricts = firebase.getFirebaseDistricts();
 
 
         SystemClock.sleep(1000);
-        Log.i("ja sai do get", fbDataInDistricts.toString());
+        //Log.i("ja sai do get", fbDataInDistricts.toString());
         //GPS inicial
         gps = new LocationCoord(this);
    }
@@ -647,6 +653,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -675,7 +682,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_slideshow) {
-            SensorFragment fragment = new SensorFragment(gps, fbDataInStations, fbDataInDistricts);
+            SensorFragment fragment = new SensorFragment(gps, fbDataInStations, fbDataPolluent);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
