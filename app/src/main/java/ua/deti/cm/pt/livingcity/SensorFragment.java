@@ -179,7 +179,7 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
             else {
                 stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
                         title((fbDataInStations.get(i).getNome_actual())).icon(BitmapDescriptorFactory.
-                        defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+                        defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
                 if(fbDataPolluent.get(i).getPollutant_code().equals("PM2.5"))
                     if(fbDataPolluent.get(i).getValue()<7500)qualidade_do_ar+=1;
                 if(fbDataPolluent.get(i).getPollutant_code().equals("O3"))
@@ -190,7 +190,7 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
                     if(fbDataPolluent.get(i).getValue()<50)qualidade_do_ar+=1;
 
                 if(qualidade_do_ar>2) pCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).radius(10000).fillColor(R.color.colorMenu).strokeColor(R.color.colorPrimaryText).strokeWidth(8)));
-                else pCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).radius(10000).fillColor(R.color.vermelho).strokeColor(R.color.colorPrimaryText).strokeWidth(8)));
+                else pCircle.add(mMap.addCircle(new CircleOptions().center(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).radius(10000).fillColor(R.color.colorMenu).strokeColor(R.color.colorPrimaryText).strokeWidth(8)));
 
             }
         }
