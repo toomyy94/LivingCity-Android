@@ -14,7 +14,8 @@ import android.provider.Settings;
 import android.util.Log;
 
 /**
- * Created by Rui Oliveira on 09/03/2016.
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
  */
 public class LocationCoord extends Service implements LocationListener {
 

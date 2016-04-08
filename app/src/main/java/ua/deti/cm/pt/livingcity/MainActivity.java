@@ -48,13 +48,17 @@ import java.util.UUID;
 import com.firebase.client.*;
 
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
-import ua.deti.cm.pt.livingcity.modules.FireBaseDistrictsData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.FireBasePolluentData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
+
+/**
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
+ */
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BluetoothAdapter.LeScanCallback {
@@ -129,10 +133,7 @@ public class MainActivity extends AppCompatActivity
 
         FireBaseModule firebase = new FireBaseModule();
         fbDataPolluent = firebase.getFirebasePolluent();
-
         SystemClock.sleep(2000);
-      //  Log.i("ja sai do get", fbDataInDistricts.toString());
-        //GPS inicial
         gps = new LocationCoord(this);
    }
 
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //fragmetn initially
-        MainFragment fragment = new MainFragment(gps, lstItem);
+        SensorTouristicFragment fragment = new SensorTouristicFragment(gps, lstItem);
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -189,7 +190,6 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
     }
 
@@ -669,7 +669,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            MainFragment fragment = new MainFragment(gps, lstItem);
+            SensorTouristicFragment fragment = new SensorTouristicFragment(gps, lstItem);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -677,16 +677,16 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_slideshow) {
-            SensorFragment fragment = new SensorFragment(gps, fbDataInStations, fbDataPolluent);
+            AirQualityFragment fragment = new AirQualityFragment(gps, fbDataInStations, fbDataPolluent);
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_manage) {
 
-            Configs fragment = null;
+            ConfigsFragment fragment = null;
             try {
-                fragment = new Configs(gps);
+                fragment = new ConfigsFragment(gps);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -700,7 +700,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-            LablsMark fragment = new LablsMark();
+            LabelsMarkFragment fragment = new LabelsMarkFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -709,7 +709,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-            About fragment = new About();
+            AboutFragment fragment = new AboutFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -731,17 +731,5 @@ public class MainActivity extends AppCompatActivity
     private void requestPermission(){
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

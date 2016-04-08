@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -27,7 +29,7 @@
             android:value="AIzaSyCfVHdyFz0Wyzx_X4WGMKURPMqc61Qz7gM" />
 
         <activity
-            android:name=".InitialActivity"
+            android:name=".FirstAnimationActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

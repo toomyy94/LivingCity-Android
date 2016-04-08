@@ -8,10 +8,13 @@ import android.os.ParcelUuid;
 import java.util.List;
 
 /**
-* Created by Dave Smith
-* Double Encore, Inc.
-* TemperatureBeacon
-*/
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
+ *
+ * Adaptado https://github.com/devunwired/accessory-samples in BluetoothGatt
+ *
+ */
+
 class TemperatureBeacon {
 
     /* Full Bluetooth UUID that defines the Health Thermometer Service */

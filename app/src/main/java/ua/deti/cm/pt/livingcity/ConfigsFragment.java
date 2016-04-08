@@ -13,37 +13,32 @@ import java.io.IOException;
 
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
+/**
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
+ */
+
 @SuppressLint("ValidFragment")
-public class Configs extends Fragment  {
+public class ConfigsFragment extends Fragment  {
 
     private String[] lstEstados;
     private LocationCoord gps;
-    public Configs(LocationCoord gps) throws IOException, JSONException {
+    public ConfigsFragment(LocationCoord gps) throws IOException, JSONException {
         this.gps = gps;
-
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View myInflatedView = inflater.inflate(R.layout.fragment_configs, container,false);
-
 
         return myInflatedView;
     }
-
-
-
-
 
 }

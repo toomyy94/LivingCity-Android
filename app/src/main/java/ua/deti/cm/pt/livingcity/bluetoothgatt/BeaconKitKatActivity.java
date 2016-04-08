@@ -29,9 +29,11 @@ import java.util.UUID;
 import ua.deti.cm.pt.livingcity.R;
 
 /**
- * Created by Dave Smith
- * Double Encore, Inc.
- * BeaconActivity
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
+ *
+ * Adaptado https://github.com/devunwired/accessory-samples in BluetoothGatt
+ *
  */
 public class BeaconKitKatActivity extends Activity implements BluetoothAdapter.LeScanCallback {
     private static final String TAG = "BeaconActivity";
@@ -184,37 +186,7 @@ public class BeaconKitKatActivity extends Activity implements BluetoothAdapter.L
         public BeaconAdapter(Context context) {
             super(context, 0);
         }
-/*
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext())
-                        .inflate(R.layout.item_beacon_list, parent, false);
-            }
 
-            TemperatureBeacon beacon = getItem(position);
-            //Set color based on temperature
-            final int textColor = getTemperatureColor(beacon.getCurrentTemp());
-
-            TextView nameView = (TextView) convertView.findViewById(R.id.text_name);
-            nameView.setText(beacon.getName());
-            nameView.setTextColor(textColor);
-
-            TextView tempView = (TextView) convertView.findViewById(R.id.text_temperature);
-            tempView.setText(String.format("%.1f\u00B0C", beacon.getCurrentTemp()));
-            tempView.setTextColor(textColor);
-
-            TextView addressView = (TextView) convertView.findViewById(R.id.text_address);
-            addressView.setText(beacon.getAddress());
-            addressView.setTextColor(textColor);
-
-            TextView rssiView = (TextView) convertView.findViewById(R.id.text_rssi);
-            rssiView.setText(String.format("%ddBm", beacon.getSignal()));
-            rssiView.setTextColor(textColor);
-
-            return convertView;
-        }
-*/
         private int getTemperatureColor(float temperature) {
             //Color range from 0 - 40 degC
             float clipped = Math.max(0f, Math.min(40f, temperature));

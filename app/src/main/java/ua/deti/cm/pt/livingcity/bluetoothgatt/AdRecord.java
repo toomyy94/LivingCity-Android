@@ -5,10 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Dave Smith
- * Double Encore, Inc.
- * AdRecord
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
+ *
+ * Adaptado https://github.com/devunwired/accessory-samples in BluetoothGatt
+ *
  */
+
 public class AdRecord {
 
     /* An incomplete list of the Bluetooth GAP AD Type identifiers */

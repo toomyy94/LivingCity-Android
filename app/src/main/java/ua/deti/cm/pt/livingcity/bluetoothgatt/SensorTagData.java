@@ -3,10 +3,11 @@ package ua.deti.cm.pt.livingcity.bluetoothgatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
 /**
- * Created by Dave Smith
- * Double Encore, Inc.
- * SensorTagData
- * Conversions for sensor data values on the TI SensorTag
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
+ *
+ * Adaptado https://github.com/devunwired/accessory-samples in BluetoothGatt
+ *
  */
 public class SensorTagData {
 

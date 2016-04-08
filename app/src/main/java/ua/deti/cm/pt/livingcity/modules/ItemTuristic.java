@@ -1,8 +1,10 @@
 package ua.deti.cm.pt.livingcity.modules;
 
 /**
- * Created by roliveira on 01-04-2016.
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
  */
+
 public class ItemTuristic {
     private String name;
     private double x;

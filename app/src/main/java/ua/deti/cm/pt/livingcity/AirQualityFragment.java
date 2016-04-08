@@ -41,20 +41,17 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
  */
+
 @SuppressLint("ValidFragment")
-public class SensorFragment extends Fragment implements OnMapReadyCallback {
+public class AirQualityFragment extends Fragment implements OnMapReadyCallback {
 
     //On Map View
     private List<Polygon> mPolygon = new ArrayList<>();
-    //private List<Circle> mCircle = new ArrayList<>();
-//    private CheckBox chkCity;
-//    private List<Marker> sensor_markers = new ArrayList<>(); //sensor(amarelos)
-//    private List<Marker> city_markers = new ArrayList<>(); //turistic(vermelhos)
     private List<Marker> stations_markers = new ArrayList<>(); //stations(verdes)
 
-//    private List<ItemTuristic> lstItem = null;
     private GoogleMap mMap;
     private LocationCoord gps;
     private String URL=null;
@@ -64,17 +61,14 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
     //On Firebase Get's
     private List<FireBasePolluentData> fbDataPolluent = null;
     private List<FireBaseStationsData> fbDataInStations = null;
-//    //Polluent
+
+    //Polluent
     private List<Circle> pCircle = new ArrayList<>();
-//    public ComparationData comparated_data = new ComparationData();
-//    List<Pollutant> comparated_data_polluentes = this.comparated_data.getPollutants();
 
-
-    public SensorFragment(LocationCoord gps, List<FireBaseStationsData> fbDataInStations, List<FireBasePolluentData> fbDataPolluent) {
+    public AirQualityFragment(LocationCoord gps, List<FireBaseStationsData> fbDataInStations, List<FireBasePolluentData> fbDataPolluent) {
         this.fbDataPolluent = fbDataPolluent;
         this.fbDataInStations = fbDataInStations;
         this.gps = gps;
-        URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=20&key=demo";
     }
 
     @Override
@@ -85,60 +79,14 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.mapa);
         mapFragment.getMapAsync(this);
 
-//
-//        CheckBox chkStations = (CheckBox) v.findViewById(R.id.chkStations);
-//        chkStations.setChecked(true);
-//        chkStations.setOnCheckedChangeListener(myCheckboxListener);
-
-
         return v;
     }
-//
-//    private CompoundButton.OnCheckedChangeListener myCheckboxListener = new CompoundButton.OnCheckedChangeListener() {
-//        @Override
-//        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//            switch (buttonView.getId()){
-//
-//                case R.id.chkStations:
-//                    if (isChecked == false) {
-//                        for (int i = 0; i < stations_markers.size(); i++) {
-//                            stations_markers.get(i).setVisible(false);
-//                        }
-//
-//                    } else {
-//                        for (int i = 0; i < stations_markers.size(); i++){
-//                            stations_markers.get(i).setVisible(true);
-//                        }
-//
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    };
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Firebase inicial
-
-        //Polluent info:
-//        double obsValue;
-//        double modValue;
-//        double comparacao;
-//        int tmpHour;
-//
-//        for(int i=0;i<comparated_data_polluentes.size();i++){
-//            tmpHour = comparated_data_polluentes.get(i).getHour();
-//            obsValue = comparated_data_polluentes.get(i).getObserved();
-//            modValue = comparated_data_polluentes.get(i).getModulated();
-//            comparacao = comparated_data_polluentes.get(i).getCompareData();
-//            Log.i("hora dentro do for: ", comparated_data_polluentes.get(i).getHour()+"");
-//        }
-//
-//        Log.i("Dados Poluentes: ", comparated_data_polluentes.toString());
     }
 
     @Override
@@ -147,7 +95,7 @@ public class SensorFragment extends Fragment implements OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-//        //firebase
+        //firebase
         Double PM25 = 0.0;
         Double O3 = 0.0;
         Double NO2 = 0.0;

@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by roliveira on 29-03-2016.
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ *  Abril 2016
  */
 public class FireBaseModule {
 
@@ -134,9 +135,7 @@ public class FireBaseModule {
                     fbDataPolluent.add(new FireBasePolluentData(mes, hora,ano,s_code,dia, value, p_code));
 
                 }
-
             }
-
             @Override
             public void onCancelled(FirebaseError firebaseError) { }
         });

@@ -12,10 +12,11 @@ import android.view.View;
 import java.util.HashMap;
 
 /**
- * Created by Dave Smith
- * Double Encore, Inc.
- * Date: 10/19/13
- * BeaconView
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ * @date Abril 2016
+ *
+ * Adaptado https://github.com/devunwired/accessory-samples in BluetoothGatt
+ *
  */
 public class BeaconView extends View {
 

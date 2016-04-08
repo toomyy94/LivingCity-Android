@@ -25,14 +25,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
+import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 @SuppressWarnings("ALL")
-public class InitialActivity extends AppCompatActivity {
+public class FirstAnimationActivity extends AppCompatActivity {
 
     private String URL=null;
     private NodeList nodelist;
     private ProgressDialog pDialog;
-    private List<String> test;
+    private List<String> tmpList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,6 @@ public class InitialActivity extends AppCompatActivity {
         ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
         ivLoader.setBackgroundResource(R.anim.animationloader);
 
-
         AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
         frameAnimation.start();
 
@@ -55,7 +55,7 @@ public class InitialActivity extends AppCompatActivity {
 
     public void onClickBtn(View v){
         Intent myIntent = new Intent(this, MainActivity.class);
-        myIntent.putStringArrayListExtra("Tourist", (ArrayList<String>) test);
+        myIntent.putStringArrayListExtra("Tourist", (ArrayList<String>) tmpList);
         startActivity(myIntent);
     }
 
@@ -93,7 +93,7 @@ public class InitialActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void args) {
 
-            test = new ArrayList<String>();
+            tmpList = new ArrayList<String>();
 
             for (int temp = 0; temp < nodelist.getLength(); temp++) {
 
@@ -101,7 +101,7 @@ public class InitialActivity extends AppCompatActivity {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
 
-                    test.add(getNode("name", eElement) +"!"+getNode("gps_x", eElement)+"!"+ getNode("gps_y", eElement));
+                    tmpList.add(getNode("name", eElement) +"!"+getNode("gps_x", eElement)+"!"+ getNode("gps_y", eElement));
 
                 }
             }
