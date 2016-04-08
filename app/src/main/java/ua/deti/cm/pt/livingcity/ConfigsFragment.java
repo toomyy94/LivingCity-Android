@@ -15,7 +15,7 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 /**
  * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
- * @date Abril 2016
+ *  Abril 2016
  */
 
 @SuppressLint("ValidFragment")
@@ -36,9 +36,8 @@ public class ConfigsFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View myInflatedView = inflater.inflate(R.layout.fragment_configs, container,false);
 
-        return myInflatedView;
+        return inflater.inflate(R.layout.fragment_configs, container,false);
     }
 
 }

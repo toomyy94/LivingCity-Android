@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 /**
  * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
- * @date Abril 2016
+ * Abril 2016
  *
  * Adaptado https://github.com/devunwired/accessory-samples in BluetoothGatt
  *
@@ -43,8 +43,8 @@ public class BeaconView extends View {
     public BeaconView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mPositions = new HashMap<String, Integer>();
-        mBeacons = new HashMap<String, TemperatureBeacon>();
+        mPositions = new HashMap<>();
+        mBeacons = new HashMap<>();
 
         mDrawRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, RADIUS,
                 getResources().getDisplayMetrics());

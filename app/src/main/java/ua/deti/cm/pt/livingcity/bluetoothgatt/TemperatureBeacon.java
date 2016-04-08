@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
- * @date Abril 2016
+ * Abril 2016
  *
  * Adaptado https://github.com/devunwired/accessory-samples in BluetoothGatt
  *
