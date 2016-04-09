@@ -1,10 +1,17 @@
 package ua.deti.cm.pt.livingcity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.location.LocationManager;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.SystemClock;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +27,7 @@ import org.xml.sax.InputSource;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Manifest;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -40,9 +48,10 @@ public class FirstAnimationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
 
+        WifiManager wifi;
+        wifi=(WifiManager)getSystemService(Context.WIFI_SERVICE);
 
-        URL = "http://www.tixik.com/api/nearby?lat=40.640534805019804&lng=-8.655166625976562&limit=30&key=demo";
-        new DownloadXML().execute(URL);
+        wifi.setWifiEnabled(true);//Turn on Wifi
 
         //Beginning the loading animation as we attempt to verify registration with SIP
         ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
@@ -50,6 +59,53 @@ public class FirstAnimationActivity extends AppCompatActivity {
 
         AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
         frameAnimation.start();
+
+
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("Allow LivingCity to access this device's location?");
+            dialog.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                    //get gps
+                }
+            });
+            dialog.setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            dialog.show();
+        }
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        URL = "http://www.tixik.com/api/nearby?lat=39.480796165673446&lng=-8.55010986328125&limit=30&key=demo";
+        new DownloadXML().execute(URL);
 
     }
 
