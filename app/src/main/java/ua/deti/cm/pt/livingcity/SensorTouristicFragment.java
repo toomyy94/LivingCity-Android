@@ -155,14 +155,20 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         //firebase Sensor & Circles
-        for(int i =0; i<fbDataInHour.size(); i++) {
+        for(int i =fbDataInHour.size()-1; i>=0; i--) {
             if(fbDataInHour.size()==0 || fbDataInHour==null)  SystemClock.sleep(600);
             else{
                 //markers
+
                 sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
                         new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                        title((fbDataInHour.get(i).getHora().substring(0, 5)+"h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
+                        title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
                         defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
+
+               // float f = distFrom(Float.parseFloat(fbDataInHour.get(i).getLatitude()), Float.parseFloat(fbDataInHour.get(i).getLongitude()), 39.42466203342898f, -8.583240509033203f);
+
+
+                //Log.e("Distancia a:",Float.toString(f) +"->"+fbDataInHour.get(i).getHora());
 
                 //circles around markers
                 if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<9) {
@@ -206,7 +212,27 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
     }
 
+    private float distFrom(float lat1, float lng1, float lat2, float lng2) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
+
+        return dist;
+    }
+
+
+
     public static List<FireBaseSensorData> getValueSensorInFireBase(){
         return fbDataInHour;
     }
+
+
+
+
+
 }

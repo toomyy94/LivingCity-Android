@@ -539,10 +539,32 @@ public class MainActivity extends AppCompatActivity
     /* Methods to extract sensor data and update the UI */
 
     private void updateHumidityValues(BluetoothGattCharacteristic characteristic) {
+
+        List<FireBaseSensorData> xpto = SensorTouristicFragment.getValueSensorInFireBase();
+
+        if (xpto.size() != 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String currentDateandTime = sdf.format(new Date());
+
+            Log.e("Ultima hora:", xpto.get(xpto.size()-1).getHora());
+            Log.e("Hora atual: ", currentDateandTime);
+
+            //FireBaseModule fbm = new FireBaseModule();
+            //fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+
+
+        }
+
+
+
+
         double humidity = SensorTagData.extractHumidity(characteristic);
 
         mHumidity = String.format("%.0f%%", humidity);
         Log.i("Valor da humidade é:",mHumidity);
+
+
+
     }
 
     private int[] mPressureCals;

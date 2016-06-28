@@ -1,42 +1,18 @@
 package ua.deti.cm.pt.livingcity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import com.jjoe64.graphview.series.DataPoint;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
-import org.achartengine.ChartFactory;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.BasicStroke;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
 import org.eazegraph.lib.charts.ValueLineChart;
 import org.eazegraph.lib.communication.IOnPointFocusedListener;
 import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
 import ua.deti.cm.pt.livingcity.modules.ChartFragment;
-import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 
 
@@ -61,7 +37,7 @@ public class MonitoringFragment extends ChartFragment {
         super.onCreate(savedInstanceState);
         sensorValue = SensorTouristicFragment.getValueSensorInFireBase();
 
-        Log.i("ola:", sensorValue.toString());
+        Log.i("Sensor Values:", sensorValue.toString());
 
     }
 
@@ -75,7 +51,6 @@ public class MonitoringFragment extends ChartFragment {
         chartHumd = (ValueLineChart) view.findViewById(R.id.humd);
         loadDataTemp();
         loadDataHumd();
-
 
         return view;
     }
