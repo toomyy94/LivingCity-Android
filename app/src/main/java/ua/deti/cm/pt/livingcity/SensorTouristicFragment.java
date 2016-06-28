@@ -66,7 +66,7 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
 
     //On Firebase Get's
-    private List<FireBaseSensorData> fbDataInHour = null;
+    private static List<FireBaseSensorData> fbDataInHour = null;
     private List<ItemTuristic> lstItem;
 
     public SensorTouristicFragment(LocationCoord gps, List<ItemTuristic> lstItem) {
@@ -204,5 +204,9 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 10));
 
+    }
+
+    public static List<FireBaseSensorData> getValueSensorInFireBase(){
+        return fbDataInHour;
     }
 }

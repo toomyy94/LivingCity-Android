@@ -1,0 +1,150 @@
+package ua.deti.cm.pt.livingcity;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import com.jjoe64.graphview.series.DataPoint;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.achartengine.ChartFactory;
+import org.achartengine.chart.PointStyle;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.BasicStroke;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
+import org.eazegraph.lib.charts.ValueLineChart;
+import org.eazegraph.lib.communication.IOnPointFocusedListener;
+import org.eazegraph.lib.models.ValueLinePoint;
+import org.eazegraph.lib.models.ValueLineSeries;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import ua.deti.cm.pt.livingcity.modules.ChartFragment;
+import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
+import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
+
+
+/**
+ * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
+ *  Junho 2016
+ */
+
+@SuppressLint("ValidFragment")
+public class MonitoringFragment extends ChartFragment {
+
+    private ValueLineChart chartTemp, chartHumd;
+    private List<FireBaseSensorData> sensorValue = null;
+
+    public MonitoringFragment() {
+
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sensorValue = SensorTouristicFragment.getValueSensorInFireBase();
+
+        Log.i("ola:", sensorValue.toString());
+
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_monitoring, container, false);
+        chartTemp = (ValueLineChart) view.findViewById(R.id.temp);
+        chartHumd = (ValueLineChart) view.findViewById(R.id.humd);
+        loadDataTemp();
+        loadDataHumd();
+
+
+        return view;
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        chartTemp.startAnimation();
+        chartHumd.startAnimation();
+    }
+
+    @Override
+    public void restartAnimation() {
+        chartTemp.startAnimation();
+        chartHumd.startAnimation();
+    }
+
+    @Override
+    public void onReset() {
+        chartTemp.resetZoom(true);
+        chartHumd.resetZoom(true);
+    }
+
+    private void loadDataTemp() {
+        ValueLineSeries seriesTemp = new ValueLineSeries();
+        seriesTemp.setColor(Color.GREEN);
+
+        for (int i=0; i<sensorValue.size(); i++){
+            String temp = sensorValue.get(i).getTemperature().split("°")[0].replace(",",".");
+            seriesTemp.addPoint(new ValueLinePoint(sensorValue.get(i).getHora(), Float.parseFloat(temp)));
+        }
+
+        chartTemp.addSeries(seriesTemp);
+        chartTemp.addStandardValue(27);
+        chartTemp.addStandardValue(-5);
+        chartTemp.addStandardValue(55);
+        chartTemp.setOnPointFocusedListener(new IOnPointFocusedListener() {
+            @Override
+            public void onPointFocused(int _PointPos) {
+                Log.d("Test", "Pos: " + _PointPos);
+            }
+        });
+
+    }
+
+
+    private void loadDataHumd() {
+        ValueLineSeries seriesHumd = new ValueLineSeries();
+        seriesHumd.setColor(Color.GRAY);
+
+        for (int i=0; i<sensorValue.size(); i++){
+            String temp = sensorValue.get(i).getHumidade().split("%")[0];
+            seriesHumd.addPoint(new ValueLinePoint(sensorValue.get(i).getHora(), Float.parseFloat(temp)));
+        }
+
+        chartHumd.addSeries(seriesHumd);
+        chartHumd.addStandardValue(50);
+        chartHumd.addStandardValue(0);
+        chartHumd.addStandardValue(100);
+        chartHumd.setOnPointFocusedListener(new IOnPointFocusedListener() {
+            @Override
+            public void onPointFocused(int _PointPos) {
+                Log.d("Test", "Pos: " + _PointPos);
+            }
+        });
+
+    }
+
+
+}

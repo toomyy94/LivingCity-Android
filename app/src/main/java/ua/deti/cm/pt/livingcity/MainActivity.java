@@ -2,10 +2,13 @@ package ua.deti.cm.pt.livingcity;
 
 import org.w3c.dom.NodeList;
 
+
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.SystemClock;
 import android.util.Log;
 import android.Manifest;
+import android.support.v4.app.Fragment;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -48,6 +51,7 @@ import java.util.UUID;
 import com.firebase.client.*;
 
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
+import ua.deti.cm.pt.livingcity.modules.ChartFragment;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.FireBasePolluentData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
@@ -715,7 +719,17 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
+        }else if (id == R.id.nav_sensors) {
+
+            MonitoringFragment fragment1 = new MonitoringFragment();
+
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment1);
+            fragmentTransaction.commit();
+
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);

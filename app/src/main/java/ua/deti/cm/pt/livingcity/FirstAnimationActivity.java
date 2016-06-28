@@ -98,13 +98,17 @@ public class FirstAnimationActivity extends AppCompatActivity {
         }
 
 
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        URL = "http://www.tixik.com/api/nearby?lat=39.480796165673446&lng=-8.55010986328125&limit=30&key=demo";
+        LocationCoord gps = new LocationCoord(this);
+
+        URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=50&key=demo";
         new DownloadXML().execute(URL);
 
     }

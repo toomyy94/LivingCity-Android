@@ -7,13 +7,17 @@
             android:icon="@drawable/home4"
             android:title="Home" />
         <item
+            android:id="@+id/nav_sensors"
+            android:icon="@drawable/evol"
+            android:title="Monitoring sensors" />
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/world_map_4"
             android:title="Air Quality" />
 
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/settings4"
             android:title="Settings" />
     </group>
 
@@ -25,7 +29,7 @@
                 android:title="Labels" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/system_task"
+                android:icon="@drawable/about1"
                 android:title="About" />
         </menu>
     </item>
