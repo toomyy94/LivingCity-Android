@@ -444,21 +444,7 @@ public class MainActivity extends AppCompatActivity
             //Por dados reais na firebase
 
             if(mandar1vez_parafirebase==1){
-                if (mTemperature.length() !=0 || mHumidity.length() != 0){
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    String currentDateandTime = sdf.format(new Date());
-                    FireBaseModule fbm = new FireBaseModule();
-                    fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
-                }
-
-                if (mTemperature.length() !=0 || mHumidity.length() != 0){
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    String currentDateandTime = sdf.format(new Date());
-                    FireBaseModule fbm = new FireBaseModule();
-                    fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
-                }
-
-                if (mTemperature.length() !=0 || mHumidity.length() != 0){
+                if (mTemperature.length() !=0 || mHumidity.length() != 0) {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String currentDateandTime = sdf.format(new Date());
                     FireBaseModule fbm = new FireBaseModule();

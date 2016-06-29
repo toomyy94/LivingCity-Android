@@ -103,9 +103,9 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         chkCity.setChecked(true);
         chkCity.setOnCheckedChangeListener(myCheckboxListener);
 
-        CheckBox chkSensor = (CheckBox) v.findViewById(R.id.chkSensor);
-        chkSensor.setChecked(true);
-        chkSensor.setOnCheckedChangeListener(myCheckboxListener);
+        //CheckBox chkSensor = (CheckBox) v.findViewById(R.id.chkSensor);
+        //chkSensor.setChecked(true);
+        //chkSensor.setOnCheckedChangeListener(myCheckboxListener);
 
         return v;
     }
@@ -146,30 +146,37 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
             }
         }
     };
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Log.i("ola:", fbDataInHour.toString());
+        //Log.i("ola:", fbDataInHour.toString());
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         //firebase Sensor & Circles
-        boolean x = true;
-        //for(int i = fbDataInHour.size()-1; i>=0; i--) {
+        int indice = fbDataInHour.size() - 1;
+        for (int i = fbDataInHour.size() - 1; i >= 0; i--) {
             if (fbDataInHour.size() == 0 || fbDataInHour == null) SystemClock.sleep(600);
             else {
-                float distancia = 0;
-                //for (int j = i; j >0; j--) {
+                //float distancia = 0;
+
                     //distancia = distFrom(Float.parseFloat(fbDataInHour.get(j).getLatitude()), Float.parseFloat(fbDataInHour.get(j).getLongitude()), Float.parseFloat(fbDataInHour.get(j - 1).getLatitude()), Float.parseFloat(fbDataInHour.get(j - 1).getLongitude()));
                     //Log.e("Distancia a:", Float.toString(distancia) + "->" + fbDataInHour.get(i).getHora());
-                    //if (distancia > 10000 && distancia < 20000 && || x==true) {
-                    int i = fbDataInHour.size()-1;
+                    if (Double.parseDouble(fbDataInHour.get(indice).getLatitude())-Double.parseDouble(fbDataInHour.get(i).getLatitude())>0.3 || Double.parseDouble(fbDataInHour.get(indice).getLongitude())-Double.parseDouble(fbDataInHour.get(i).getLongitude())<0.3)
+                    {
+                        continue;
+                    }
+                    else{
+                        indice=i;
+                        Log.i("indice:", ""+indice);
+                        // int i = fbDataInHour.size()-1;
                         sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
                                 new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
                                 title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
                                 defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
-                            x=false;
+
                         //circles around markers
                         if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
                             mCircle.add(mMap.addCircle(new CircleOptions().center(
@@ -194,28 +201,18 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
                             mCircle.add(mMap.addCircle(new CircleOptions().center(
                                     new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
                         }
-                    //}
-                //}
-                //markers
-                //if(distancia>10000) {
+                    }
+                 }
+                }
 
-                //}
+            //xml to tourist attractions
+            for (int k = 0; k < lstItem.size(); k++) {
+                city_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(k).getLatitude(), lstItem.get(k).getLongitude())).
+                        title(lstItem.get(k).getName()).icon(BitmapDescriptorFactory.
+                        defaultMarker(BitmapDescriptorFactory.HUE_RED))));
 
-
-
-
-
-        }
-
-        //xml to tourist attractions
-        for(int i =0; i<lstItem.size(); i++) {
-            city_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(lstItem.get(i).getLatitude(), lstItem.get(i).getLongitude())).
-                    title(lstItem.get(i).getName()).icon(BitmapDescriptorFactory.
-                    defaultMarker(BitmapDescriptorFactory.HUE_RED))));
-            
-        }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 10));
-
+            }
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 10));
     }
 
     private float distFrom(float lat1, float lng1, float lat2, float lng2) {
@@ -230,8 +227,6 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
         return dist;
     }
-
-
 
     public static List<FireBaseSensorData> getValueSensorInFireBase(){
         return fbDataInHour;
