@@ -139,6 +139,10 @@ public class MainActivity extends AppCompatActivity
         fbDataPolluent = firebase.getFirebasePolluent();
         SystemClock.sleep(2000);
         gps = new LocationCoord(this);
+
+
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
    }
 
     @Override
@@ -547,17 +551,14 @@ public class MainActivity extends AppCompatActivity
 
         if (xpto.size() != 0){
 
-            SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-            String currenthora = hora.format(new Date());
-
-
-            Log.e("Ultima hora:", xpto.get(xpto.size()-1).getHora());
-            Log.e("Hora atual: ", currenthora);
 
 
 
-            //FireBaseModule fbm = new FireBaseModule();
-            //fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+
+
+
+
+
 
 
         }

@@ -24,6 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 @SuppressWarnings("ALL")
-public class FirstAnimationActivity extends AppCompatActivity {
+public class FirstAnimationActivity extends AppCompatActivity  {
 
     private String URL=null;
     private NodeList nodelist;
@@ -103,13 +104,15 @@ public class FirstAnimationActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()  {
         super.onStart();
 
         LocationCoord gps = new LocationCoord(this);
 
         URL = "http://www.tixik.com/api/nearby?lat="+gps.getLatitude()+"&lng="+gps.getLongitude()+"&limit=50&key=demo";
+
         new DownloadXML().execute(URL);
+
 
     }
 

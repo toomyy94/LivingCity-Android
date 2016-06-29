@@ -1,11 +1,16 @@
 package ua.deti.cm.pt.livingcity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.ToggleButton;
 
 import org.json.JSONException;
 
@@ -30,6 +35,9 @@ public class ConfigsFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
     }
 
 
@@ -37,7 +45,34 @@ public class ConfigsFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_configs, container,false);
+        View view = inflater.inflate(R.layout.fragment_configs, container, false);
+
+
+        Switch toggle = (Switch) view.findViewById(R.id.switch1);
+
+
+        toggle.setChecked(MyService.isOperational());
+
+
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Intent intent = new Intent(getActivity(), MyService.class);
+                    getActivity().startService(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), MyService.class);
+                    getActivity().stopService(intent);
+                }
+            }
+        });
+
+
+
+        return view;
+
+
+
     }
+
 
 }
