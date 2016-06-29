@@ -155,50 +155,56 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         //firebase Sensor & Circles
-        for(int i =fbDataInHour.size()-1; i>=0; i--) {
-            if(fbDataInHour.size()==0 || fbDataInHour==null)  SystemClock.sleep(600);
-            else{
+        boolean x = true;
+        //for(int i = fbDataInHour.size()-1; i>=0; i--) {
+            if (fbDataInHour.size() == 0 || fbDataInHour == null) SystemClock.sleep(600);
+            else {
+                float distancia = 0;
+                //for (int j = i; j >0; j--) {
+                    //distancia = distFrom(Float.parseFloat(fbDataInHour.get(j).getLatitude()), Float.parseFloat(fbDataInHour.get(j).getLongitude()), Float.parseFloat(fbDataInHour.get(j - 1).getLatitude()), Float.parseFloat(fbDataInHour.get(j - 1).getLongitude()));
+                    //Log.e("Distancia a:", Float.toString(distancia) + "->" + fbDataInHour.get(i).getHora());
+                    //if (distancia > 10000 && distancia < 20000 && || x==true) {
+                    int i = fbDataInHour.size()-1;
+                        sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
+                                title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
+                                defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
+                            x=false;
+                        //circles around markers
+                        if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
+                            mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
+                        }
+                        if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 13) {
+                            mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azul).strokeColor(R.color.azul).strokeWidth(6)));
+
+                        }
+                        if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 18) {
+                            mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
+
+                        }
+
+                        if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 28) {
+                            mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
+                        }
+                        if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 28) {
+                            mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
+                        }
+                    //}
+                //}
                 //markers
+                //if(distancia>10000) {
 
-                sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
-                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                        title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
-                        defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
-
-               // float f = distFrom(Float.parseFloat(fbDataInHour.get(i).getLatitude()), Float.parseFloat(fbDataInHour.get(i).getLongitude()), 39.42466203342898f, -8.583240509033203f);
+                //}
 
 
-                //Log.e("Distancia a:",Float.toString(f) +"->"+fbDataInHour.get(i).getHora());
 
-                //circles around markers
-                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<9) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(
-                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
-                }
-                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<13) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(
-                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.laranja).strokeColor(R.color.laranja).strokeWidth(6)));
 
-                }
-                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<18) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(
-                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
 
-                }
-                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<23) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(
-                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azul).strokeColor(R.color.azul).strokeWidth(6)));
-
-                }
-                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=23 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))<28) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(
-                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
-                }
-                if(Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0,2))>=28) {
-                    mCircle.add(mMap.addCircle(new CircleOptions().center(
-                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
-                }
-            }
         }
 
         //xml to tourist attractions

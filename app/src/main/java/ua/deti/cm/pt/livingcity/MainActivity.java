@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            Log.d(TAG, "Connection State Change: "+status+" -> "+connectionState(newState));
+            Log.d(TAG, "Connection State Change: " + status + " -> " + connectionState(newState));
             if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
                 /*
                  * Once successfully connected, we must next discover all the services on the
@@ -442,11 +442,28 @@ public class MainActivity extends AppCompatActivity
             }
 
             //Por dados reais na firebase
+
             if(mandar1vez_parafirebase==1){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String currentDateandTime = sdf.format(new Date());
-                FireBaseModule fbm = new FireBaseModule();
-                fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+                if (mTemperature.length() !=0 || mHumidity.length() != 0){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String currentDateandTime = sdf.format(new Date());
+                    FireBaseModule fbm = new FireBaseModule();
+                    fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+                }
+
+                if (mTemperature.length() !=0 || mHumidity.length() != 0){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String currentDateandTime = sdf.format(new Date());
+                    FireBaseModule fbm = new FireBaseModule();
+                    fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+                }
+
+                if (mTemperature.length() !=0 || mHumidity.length() != 0){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String currentDateandTime = sdf.format(new Date());
+                    FireBaseModule fbm = new FireBaseModule();
+                    fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+                }
             }
             mandar1vez_parafirebase++;
 
@@ -543,11 +560,15 @@ public class MainActivity extends AppCompatActivity
         List<FireBaseSensorData> xpto = SensorTouristicFragment.getValueSensorInFireBase();
 
         if (xpto.size() != 0){
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String currentDateandTime = sdf.format(new Date());
+
+            SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+            String currenthora = hora.format(new Date());
+
 
             Log.e("Ultima hora:", xpto.get(xpto.size()-1).getHora());
-            Log.e("Hora atual: ", currentDateandTime);
+            Log.e("Hora atual: ", currenthora);
+
+
 
             //FireBaseModule fbm = new FireBaseModule();
             //fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
