@@ -11,18 +11,23 @@ public class FireBaseSensorData {
         private String latitude;
         private String longitude;
         private String temperature;
+        private String distrct;
 
-        public FireBaseSensorData(String hora, String humidade, String latitude, String longitude, String temperature){
+        public FireBaseSensorData(String hora, String humidade, String latitude, String longitude, String temperature, String distrct){
             this.hora = hora;
             this.humidade = humidade;
             this.latitude = latitude;
             this.longitude = longitude;
             this.temperature = temperature;
+            this.distrct = distrct;
         }
 
-        public String getHora() {
-            return hora;
+        public String getDistrct() {
+            return distrct;
         }
+        public String getHora() {
+        return hora;
+    }
         public String getTemperature() {
             return temperature;
         }

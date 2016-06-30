@@ -1,4 +1,4 @@
-package ua.deti.cm.pt.livingcity;
+package ua.deti.cm.pt.livingcity.modules;
 
 
 import android.app.IntentService;
@@ -12,6 +12,7 @@ import java.util.Random;
 import android.os.Handler;
 
 import ua.deti.cm.pt.livingcity.modules.DisplayToast;
+import ua.deti.cm.pt.livingcity.modules.DistrictsModule;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
@@ -63,7 +64,7 @@ public class MyService extends IntentService{
                     LocationCoord gps = new LocationCoord(this);
 
                     FireBaseModule fbm = new FireBaseModule();
-                    fbm.addValuesFireBase(String.valueOf(mTemperature), String.valueOf(mHumidity), gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+                    fbm.addValuesFireBase(String.valueOf(mTemperature), String.valueOf(mHumidity), gps.getLatitude(), gps.getLongitude(), currentDateandTime, DistrictsModule.getDistrict());
 
                     mHandler.post(new DisplayToast(this, "New value added!\n(temp:" + mTemperature + "humd:" + mHumidity + ")"));
 

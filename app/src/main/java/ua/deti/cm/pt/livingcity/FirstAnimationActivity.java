@@ -9,9 +9,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,22 +22,20 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Manifest;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
+import ua.deti.cm.pt.livingcity.modules.DistrictsModule;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 
 @SuppressWarnings("ALL")
 public class FirstAnimationActivity extends AppCompatActivity  {
 
-    private String URL=null;
+    private String URL=null, URLDist = null;
     private NodeList nodelist;
     private ProgressDialog pDialog;
     private List<String> tmpList;
@@ -113,6 +109,9 @@ public class FirstAnimationActivity extends AppCompatActivity  {
 
         new DownloadXML().execute(URL);
 
+        URLDist = "https://maps.googleapis.com/maps/api/geocode/xml?&latlng="+gps.getLatitude()+","+gps.getLongitude();
+
+        new DistrictsModule().execute(URLDist);
 
     }
 
@@ -179,10 +178,6 @@ public class FirstAnimationActivity extends AppCompatActivity  {
         Node nValue = (Node) nlList.item(0);
         return nValue.getNodeValue();
     }
-
-
-
-
 
 
 }

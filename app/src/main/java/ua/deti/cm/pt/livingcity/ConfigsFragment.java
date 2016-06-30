@@ -7,16 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.ToggleButton;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
+import ua.deti.cm.pt.livingcity.modules.MyService;
 
 /**
  * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
