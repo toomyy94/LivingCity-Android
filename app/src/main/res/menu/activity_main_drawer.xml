@@ -7,6 +7,11 @@
             android:icon="@drawable/home4"
             android:title="Home" />
         <item
+            android:id="@+id/nav_humidity"
+            android:icon="@drawable/humidity48"
+            android:title="Humidity management" />
+
+        <item
             android:id="@+id/nav_sensors"
             android:icon="@drawable/evol"
             android:title="Monitoring sensors" />

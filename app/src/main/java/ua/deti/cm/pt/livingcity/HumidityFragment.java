@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -27,14 +25,9 @@ import com.google.android.gms.maps.model.PolygonOptions;
 
 import org.w3c.dom.NodeList;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import ua.deti.cm.pt.livingcity.modules.FireBaseDistrictsData;
-import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.FireBasePolluentData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
@@ -46,7 +39,7 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
  */
 
 @SuppressLint("ValidFragment")
-public class AirQualityFragment extends Fragment implements OnMapReadyCallback {
+public class HumidityFragment extends Fragment implements OnMapReadyCallback {
 
     //On Map View
     private List<Polygon> mPolygon = new ArrayList<>();
@@ -65,7 +58,7 @@ public class AirQualityFragment extends Fragment implements OnMapReadyCallback {
     //Polluent
     private List<Circle> pCircle = new ArrayList<>();
 
-    public AirQualityFragment(LocationCoord gps, List<FireBaseStationsData> fbDataInStations, List<FireBasePolluentData> fbDataPolluent) {
+    public HumidityFragment(LocationCoord gps, List<FireBaseStationsData> fbDataInStations, List<FireBasePolluentData> fbDataPolluent) {
         this.fbDataPolluent = fbDataPolluent;
         this.fbDataInStations = fbDataInStations;
         this.gps = gps;

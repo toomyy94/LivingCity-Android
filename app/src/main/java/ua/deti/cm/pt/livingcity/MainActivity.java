@@ -757,7 +757,17 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment1);
             fragmentTransaction.commit();
 
+        }else if (id == R.id.nav_humidity) {
+
+            HumidityFragment fragment1 = new HumidityFragment(gps, fbDataInStations, fbDataPolluent);
+
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment1);
+            fragmentTransaction.commit();
+
         }
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
