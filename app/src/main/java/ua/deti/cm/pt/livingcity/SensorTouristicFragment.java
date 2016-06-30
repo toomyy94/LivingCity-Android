@@ -201,26 +201,26 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
                             //circles around markers
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.CYAN).strokeColor(Color.CYAN).strokeWidth(8)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 200)).strokeColor(Color.argb(90, 0, 0, 200)).strokeWidth(8)));
                             }
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 13) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.BLUE).strokeColor(Color.BLUE).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 80)).strokeColor(Color.argb(90, 0, 0, 80)).strokeWidth(6)));
 
                             }
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 18) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.YELLOW).strokeColor(Color.YELLOW).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 120, 200, 0)).strokeColor(Color.argb(90, 120, 200, 0)).strokeWidth(6)));
 
                             }
 
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 28) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.MAGENTA).strokeColor(Color.MAGENTA).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 220, 0, 0)).strokeColor(Color.argb(90, 220, 0, 0)).strokeWidth(6)));
                             }
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 28) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.RED).strokeColor(Color.RED).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 40, 0, 0)).strokeColor(Color.argb(90, 40, 0, 0)).strokeWidth(6)));
                             }
                         }
                         else continue;
@@ -237,26 +237,26 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
                         //circles around markers
                         if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
                             mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 200)).strokeColor(Color.argb(90, 0, 0, 200)).strokeWidth(8)));
                         }
                         if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 13) {
                             mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azul).strokeColor(R.color.azul).strokeWidth(6)));
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 80)).strokeColor(Color.argb(90, 0, 0, 80)).strokeWidth(6)));
 
                         }
                         if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 18) {
                             mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 120, 200, 0)).strokeColor(Color.argb(90, 120, 200, 0)).strokeWidth(6)));
 
                         }
 
                         if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 28) {
                             mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 220, 0, 0)).strokeColor(Color.argb(90, 220, 0, 0)).strokeWidth(6)));
                         }
                         if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 28) {
                             mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
+                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 40, 0, 0)).strokeColor(Color.argb(90, 40, 0, 0)).strokeWidth(6)));
                         }
                     }
                  }
