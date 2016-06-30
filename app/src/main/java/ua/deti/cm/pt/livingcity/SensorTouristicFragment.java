@@ -2,6 +2,7 @@ package ua.deti.cm.pt.livingcity;
 
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,60 +59,17 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
 @SuppressLint("ValidFragment")
 public class SensorTouristicFragment extends Fragment  implements OnMapReadyCallback {
 
+    //On Firebase Get's
+    private static List<FireBaseSensorData> fbDataInHour = null;
     //On Map View
     private List<Circle> mCircle = new ArrayList<>();
     private CheckBox chkCity;
     private List<Marker> sensor_markers = new ArrayList<>(); //sensor(amarelos)
     private List<Marker> city_markers = new ArrayList<>(); //turistic(vermelhos)
+    private List<Polygon> districts = new ArrayList<>(); //distritos(polígonos)
     private GoogleMap mMap;
     private LocationCoord gps;
-
-
-    //On Firebase Get's
-    private static List<FireBaseSensorData> fbDataInHour = null;
     private List<ItemTuristic> lstItem;
-
-    public SensorTouristicFragment(LocationCoord gps, List<ItemTuristic> lstItem) {
-        this.gps = gps;
-        this.lstItem = lstItem;
-    }
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        SystemClock.sleep(1000);
-        FireBaseModule fbase = new FireBaseModule();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDateandTime = sdf.format(new Date());
-
-        fbDataInHour = fbase.getFirebaseData_CurrentDay(currentDateandTime);
-        SystemClock.sleep(2000);
-        chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.mapa);
-        mapFragment.getMapAsync(this);
-
-        CheckBox chkCity = (CheckBox) v.findViewById(R.id.chkCity);
-        chkCity.setChecked(true);
-        chkCity.setOnCheckedChangeListener(myCheckboxListener);
-
-        CheckBox chkSensor = (CheckBox) v.findViewById(R.id.chkSensor);
-        chkSensor.setChecked(true);
-        chkSensor.setOnCheckedChangeListener(myCheckboxListener);
-
-        return v;
-    }
-
     private CompoundButton.OnCheckedChangeListener myCheckboxListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -147,6 +107,51 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         }
     };
 
+
+
+    public SensorTouristicFragment(LocationCoord gps, List<ItemTuristic> lstItem) {
+        this.gps = gps;
+        this.lstItem = lstItem;
+    }
+
+    public static List<FireBaseSensorData> getValueSensorInFireBase(){
+        return fbDataInHour;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        SystemClock.sleep(1000);
+        FireBaseModule fbase = new FireBaseModule();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateandTime = sdf.format(new Date());
+
+        fbDataInHour = fbase.getFirebaseData_CurrentDay(currentDateandTime);
+        SystemClock.sleep(2000);
+        chkCity = (CheckBox) getActivity().findViewById(R.id.chkCity);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.mapa);
+        mapFragment.getMapAsync(this);
+
+        CheckBox chkCity = (CheckBox) v.findViewById(R.id.chkCity);
+        chkCity.setChecked(true);
+        chkCity.setOnCheckedChangeListener(myCheckboxListener);
+
+        CheckBox chkSensor = (CheckBox) v.findViewById(R.id.chkSensor);
+        chkSensor.setChecked(true);
+        chkSensor.setOnCheckedChangeListener(myCheckboxListener);
+
+        return v;
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -154,6 +159,27 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         //Log.i("ola:", fbDataInHour.toString());
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        // 0- Algarve ; 1- ; 2- ; 3- ; 4- ; 5- ; 6- ; 7- ; 8- ;
+        // 9- ; 10- ; 11- ; 12- ; 13- ; 14- ; 15- ; 16- ; 17- ; 18-
+        /*districts.add(googleMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(37.57070524233116, -8.800048828125), new LatLng(37.60552821745789, -7.503662109375), new LatLng(37.19533058280065, -7.415771484374999), new LatLng(37.00255267215955, -7.877197265625), new LatLng(37.125286284966805, -8.54736328125), new LatLng(37.046408899699564, -8.96484375), new LatLng(37.57070524233116, -8.800048828125))
+                .strokeColor(Color.argb(40, 50, 0, 255)).strokeWidth(6)
+                .fillColor(Color.argb(150, 0, 0, 255))));
+
+        districts.add(googleMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(37.57070524233116, -8.7890625), new LatLng(37.85750715625203, -8.81103515625), new LatLng(37.97018468810549, -8.28369140625), new LatLng(38.28131307922966, -8.0859375), new LatLng(38.272688535980976, -7.18505859375),  new LatLng(38.1777509666256, -6.954345703125), new LatLng(37.59682400108367, -7.503662109375), new LatLng(37.57070524233116, -8.7890625))
+                .strokeColor(Color.argb(40, 50, 0, 255)).strokeWidth(6)
+                .fillColor(Color.argb(150, 0, 255, 0))));
+
+        districts.add(googleMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(38.26406296833961, -7.152099609375), new LatLng(38.46219172306828, -7.31689453125), new LatLng(38.95940879245423, -7.00927734375), new LatLng(38.96795115401593, -8.184814453125), new LatLng(38.65119833229951, -8.470458984375), new LatLng(38.26406296833961, -8.118896484375), new LatLng(38.26406296833961, -7.152099609375))
+                .strokeColor(Color.argb(40, 50, 0, 255)).strokeWidth(6)
+                .fillColor(Color.argb(150, 255, 0, 0))));
+
+        Log.i("distric",""+districts);*/
+
+
 
         //firebase Sensor & Circles
         int indice = fbDataInHour.size() - 1;
@@ -175,26 +201,26 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
                             //circles around markers
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azulbebe).strokeColor(R.color.azulbebe).strokeWidth(8)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.CYAN).strokeColor(Color.CYAN).strokeWidth(8)));
                             }
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 13) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.azul).strokeColor(R.color.azul).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.BLUE).strokeColor(Color.BLUE).strokeWidth(6)));
 
                             }
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 18) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.amarelo).strokeColor(R.color.amarelo).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.YELLOW).strokeColor(Color.YELLOW).strokeWidth(6)));
 
                             }
 
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 28) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.laranjaescuro).strokeColor(R.color.laranjaescuro).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.MAGENTA).strokeColor(Color.MAGENTA).strokeWidth(6)));
                             }
                             if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 28) {
                                 mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(R.color.vermelho).strokeColor(R.color.vermelho).strokeWidth(6)));
+                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.RED).strokeColor(Color.RED).strokeWidth(6)));
                             }
                         }
                         else continue;
@@ -246,7 +272,7 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 10));
     }
 
-    private float distFrom(float lat1, float lng1, float lat2, float lng2) {
+    public float distFrom(float lat1, float lng1, float lat2, float lng2) {
         double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(lat2-lat1);
         double dLng = Math.toRadians(lng2-lng1);
@@ -257,10 +283,6 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         float dist = (float) (earthRadius * c);
 
         return dist;
-    }
-
-    public static List<FireBaseSensorData> getValueSensorInFireBase(){
-        return fbDataInHour;
     }
 
 

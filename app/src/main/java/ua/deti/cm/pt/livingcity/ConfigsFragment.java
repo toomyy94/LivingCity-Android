@@ -35,9 +35,6 @@ public class ConfigsFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
 
 
@@ -46,13 +43,8 @@ public class ConfigsFragment extends Fragment  {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_configs, container, false);
-
-
         Switch toggle = (Switch) view.findViewById(R.id.switch1);
-
-
         toggle.setChecked(MyService.isOperational());
-
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -66,11 +58,7 @@ public class ConfigsFragment extends Fragment  {
             }
         });
 
-
-
         return view;
-
-
 
     }
 
