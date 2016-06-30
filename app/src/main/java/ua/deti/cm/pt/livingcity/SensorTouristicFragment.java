@@ -231,7 +231,7 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
                         // int i = fbDataInHour.size()-1;
                         sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
                                 new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                                title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
+                                title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature()).icon(BitmapDescriptorFactory.
                                 defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
 
                         //circles around markers

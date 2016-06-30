@@ -13,4 +13,26 @@
         class="com.google.android.gms.maps.SupportMapFragment"
         />
 
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chkCity">
+
+        <CheckBox
+            android:id="@+id/chkStation"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7pt"
+            android:buttonTint="@color/colorWhite"
+            android:layout_alignParentRight="true"
+            android:text="Show stations"
+            android:background="@color/whiteTransparent"
+            android:layout_gravity="right" />
+
+
+    </LinearLayout>
+
 </FrameLayout>
