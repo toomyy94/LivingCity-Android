@@ -3,12 +3,10 @@ package ua.deti.cm.pt.livingcity;
 import org.w3c.dom.NodeList;
 
 
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.SystemClock;
 import android.util.Log;
 import android.Manifest;
-import android.support.v4.app.Fragment;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -51,13 +49,14 @@ import java.util.UUID;
 import com.firebase.client.*;
 
 import ua.deti.cm.pt.livingcity.bluetoothgatt.SensorTagData;
-import ua.deti.cm.pt.livingcity.modules.ChartFragment;
+import ua.deti.cm.pt.livingcity.modules.DistrictsModule;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.FireBasePolluentData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseStationsData;
 import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
 import ua.deti.cm.pt.livingcity.modules.LocationCoord;
+import ua.deti.cm.pt.livingcity.modules.MyService;
 
 /**
  * @author Rui Oliveira (ruipedrooliveira@ua.pt) & Tomás Rodrigues (tomasrodrigues@ua.pt)
@@ -452,7 +451,7 @@ public class MainActivity extends AppCompatActivity
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String currentDateandTime = sdf.format(new Date());
                     FireBaseModule fbm = new FireBaseModule();
-                    fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime);
+                    fbm.addValuesFireBase(mTemperature, mHumidity, gps.getLatitude(), gps.getLongitude(), currentDateandTime, DistrictsModule.getDistrict() );
                 }
             }
             mandar1vez_parafirebase++;

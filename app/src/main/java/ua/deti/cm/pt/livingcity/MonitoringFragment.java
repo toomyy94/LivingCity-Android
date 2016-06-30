@@ -13,6 +13,7 @@ import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
 import java.util.List;
 import ua.deti.cm.pt.livingcity.modules.ChartFragment;
+import ua.deti.cm.pt.livingcity.modules.DistrictsModule;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 
 
@@ -81,8 +82,11 @@ public class MonitoringFragment extends ChartFragment {
         seriesTemp.setColor(Color.GREEN);
 
         for (int i=0; i<sensorValue.size(); i++){
-            String temp = sensorValue.get(i).getTemperature().split("°")[0].replace(",",".");
-            seriesTemp.addPoint(new ValueLinePoint(sensorValue.get(i).getHora(), Float.parseFloat(temp)));
+            Log.e("ce", sensorValue.get(i).getDistrct());
+            if (sensorValue.get(i).getDistrct().equals(DistrictsModule.getDistrict())){
+                String temp = sensorValue.get(i).getTemperature().split("°")[0].replace(",",".");
+                seriesTemp.addPoint(new ValueLinePoint(sensorValue.get(i).getHora(), Float.parseFloat(temp)));
+            }
         }
 
         chartTemp.addSeries(seriesTemp);
@@ -104,8 +108,10 @@ public class MonitoringFragment extends ChartFragment {
         seriesHumd.setColor(Color.GRAY);
 
         for (int i=0; i<sensorValue.size(); i++){
-            String temp = sensorValue.get(i).getHumidade().split("%")[0];
-            seriesHumd.addPoint(new ValueLinePoint(sensorValue.get(i).getHora(), Float.parseFloat(temp)));
+            if (sensorValue.get(i).getDistrct().equals(DistrictsModule.getDistrict())){
+                String temp = sensorValue.get(i).getHumidade().split("%")[0];
+                seriesHumd.addPoint(new ValueLinePoint(sensorValue.get(i).getHora(), Float.parseFloat(temp)));
+            }
         }
 
         chartHumd.addSeries(seriesHumd);

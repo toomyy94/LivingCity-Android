@@ -26,7 +26,7 @@ public class FireBaseModule {
 
     }
 
-    public void addValuesFireBase(String temperature, String humidade, double latitude, double longitude, String currentDateandTime){
+    public void addValuesFireBase(String temperature, String humidade, double latitude, double longitude, String currentDateandTime, String district){
         mRef = new Firebase("https://livingcityapp.firebaseio.com");
 
         Firebase usersRef = mRef.child(currentDateandTime);
@@ -40,6 +40,8 @@ public class FireBaseModule {
         map.put("Hora",currenthora);
         map.put("Latitude", Double.toString(latitude));
         map.put("Longitude", Double.toString(longitude));
+        map.put("Distrito", district);
+
 
         Map<String, Object> mapaCompleto = new HashMap<>();
         mapaCompleto.put(currenthora, map);
@@ -63,8 +65,9 @@ public class FireBaseModule {
                     String humi = userSnapshot.child("Humidade").getValue(String.class);
                     String lati = userSnapshot.child("Latitude").getValue(String.class);
                     String longi = userSnapshot.child("Longitude").getValue(String.class);
+                    String distr = userSnapshot.child("Distrito").getValue(String.class);
 
-                    fbDataInHour.add(new FireBaseSensorData(hora, humi, lati, longi, temp));
+                    fbDataInHour.add(new FireBaseSensorData(hora, humi, lati, longi, temp, distr));
 
                 }
 

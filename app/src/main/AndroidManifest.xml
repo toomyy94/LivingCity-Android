@@ -54,7 +54,7 @@
         </activity>
         <activity android:name="org.achartengine.GraphicalActivity" />
 
-        <service android:name=".MyService"  ></service>
+        <service android:name=".modules.MyService"  ></service>
 
     </application>
 
