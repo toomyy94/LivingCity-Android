@@ -312,7 +312,7 @@ public class HumidityFragment extends Fragment implements OnMapReadyCallback {
 
 
         int color=0;
-        boolean aveiro= true, porto = true, santarem = true; //, beja = true, evora = true, setubal = true, portalegre = true, santarem =  ;
+        boolean aveiro= true, porto = true, santarem = true, coimbra=true, leiria = true; //, beja = true, evora = true, setubal = true, portalegre = true, santarem =  ;
         for (int i = valueSensorInFireBase.size() - 1; i >= 0; i--) {
 
             if (valueSensorInFireBase.get(i).getDistrct().equals("Aveiro District, Portugal") && aveiro == true){
@@ -400,6 +400,54 @@ public class HumidityFragment extends Fragment implements OnMapReadyCallback {
                 districts.get(6).setStrokeColor(color);
 
                 santarem = false;
+            }
+
+            else if (valueSensorInFireBase.get(i).getDistrct().equals("Coimbra District") && coimbra == true){
+
+                int humd = (int)Double.parseDouble(valueSensorInFireBase.get(i).getHumidade().split("%")[0]);
+
+                Log.e("fsdfsd", humd +"");
+
+                if (humd<=20)
+                    color = R.color.humidity0;
+                else if (humd >=21 && humd <=40)
+                    color = R.color.humidity21;
+                else if (humd >=41 && humd <=60)
+                    color = R.color.humidity41;
+                else if (humd >=61 && humd <=80)
+                    color = R.color.humidity61;
+                else if (humd >=81)
+                    color = R.color.humidity81;
+
+                districts.get(10).setFillColor(color);
+                districts.get(10).setStrokeWidth(4);
+                districts.get(10).setStrokeColor(color);
+
+                coimbra = false;
+            }
+
+            else if (valueSensorInFireBase.get(i).getDistrct().equals("Leiria District") && leiria == true){
+
+                int humd = (int)Double.parseDouble(valueSensorInFireBase.get(i).getHumidade().split("%")[0]);
+
+                Log.e("fsdfsd", humd +"");
+
+                if (humd<=20)
+                    color = R.color.humidity0;
+                else if (humd >=21 && humd <=40)
+                    color = R.color.humidity21;
+                else if (humd >=41 && humd <=60)
+                    color = R.color.humidity41;
+                else if (humd >=61 && humd <=80)
+                    color = R.color.humidity61;
+                else if (humd >=81)
+                    color = R.color.humidity81;
+
+                districts.get(8).setFillColor(color);
+                districts.get(8).setStrokeWidth(4);
+                districts.get(8).setStrokeColor(color);
+
+                leiria = false;
             }
 
         }
