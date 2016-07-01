@@ -64,9 +64,9 @@ public class MyService extends IntentService{
                     LocationCoord gps = new LocationCoord(this);
 
                     FireBaseModule fbm = new FireBaseModule();
-                    fbm.addValuesFireBase(String.valueOf(mTemperature), String.valueOf(mHumidity), gps.getLatitude(), gps.getLongitude(), currentDateandTime, DistrictsModule.getDistrict());
+                    fbm.addValuesFireBase(String.valueOf(mTemperature), String.valueOf((int)mHumidity)+"%", gps.getLatitude(), gps.getLongitude(), currentDateandTime, DistrictsModule.getDistrict());
 
-                    mHandler.post(new DisplayToast(this, "New value added!\n(temp:" + mTemperature + "humd:" + mHumidity + ")"));
+                    mHandler.post(new DisplayToast(this, "New value added!\n(temp:" + mTemperature + "º humd:" + (int)mHumidity + "%)"));
 
                     wait(180000);
 

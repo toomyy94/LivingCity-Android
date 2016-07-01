@@ -45,6 +45,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 
+import ua.deti.cm.pt.livingcity.modules.DistrictsModule;
 import ua.deti.cm.pt.livingcity.modules.FireBaseSensorData;
 import ua.deti.cm.pt.livingcity.modules.FireBaseModule;
 import ua.deti.cm.pt.livingcity.modules.ItemTuristic;
@@ -158,7 +159,7 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
         //Log.i("ola:", fbDataInHour.toString());
         // Add a marker in Sydney and move the camera
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         // 0- Algarve ; 1- ; 2- ; 3- ; 4- ; 5- ; 6- ; 7- ; 8- ;
         // 9- ; 10- ; 11- ; 12- ; 13- ; 14- ; 15- ; 16- ; 17- ; 18-
@@ -182,46 +183,93 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
 
         //firebase Sensor & Circles
-        int indice = fbDataInHour.size() - 1;
+        boolean lastValue = true;
+        //int indice = fbDataInHour.size() - 1;
         for (int i = fbDataInHour.size() - 1; i >= 0; i--) {
             if (fbDataInHour.size() == 0 || fbDataInHour == null) SystemClock.sleep(600);
             else {
                 //float distancia = 0;
 
+                if (DistrictsModule.getDistrict().equals(fbDataInHour.get(i).getDistrct()) && lastValue == true){
+                    lastValue = false;
+
+                    sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
+                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
+                            title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() ).icon(BitmapDescriptorFactory.
+                            defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
+
+                    //circles around markers
+                    if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 200)).strokeColor(Color.argb(90, 0, 0, 200)).strokeWidth(8)));
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 13) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 80)).strokeColor(Color.argb(90, 0, 0, 80)).strokeWidth(6)));
+
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 18) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 120, 200, 0)).strokeColor(Color.argb(90, 120, 200, 0)).strokeWidth(6)));
+
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 28) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 220, 0, 0)).strokeColor(Color.argb(90, 220, 0, 0)).strokeWidth(6)));
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 28) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 40, 0, 0)).strokeColor(Color.argb(90, 40, 0, 0)).strokeWidth(6)));
+                    }
+
+                }
+
+                else if (!DistrictsModule.getDistrict().equals(fbDataInHour.get(i).getDistrct())){
+
+                    sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
+                            new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
+                            title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() ).icon(BitmapDescriptorFactory.
+                            defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
+
+                    //circles around markers
+                    if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 200)).strokeColor(Color.argb(90, 0, 0, 200)).strokeWidth(8)));
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 13) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 80)).strokeColor(Color.argb(90, 0, 0, 80)).strokeWidth(6)));
+
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 18) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 120, 200, 0)).strokeColor(Color.argb(90, 120, 200, 0)).strokeWidth(6)));
+
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 28) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 220, 0, 0)).strokeColor(Color.argb(90, 220, 0, 0)).strokeWidth(6)));
+                    }
+                    else if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 28) {
+                        mCircle.add(mMap.addCircle(new CircleOptions().center(
+                                new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 40, 0, 0)).strokeColor(Color.argb(90, 40, 0, 0)).strokeWidth(6)));
+                    }
+
+                }
+
+
+
+
+
+
                     //distancia = distFrom(Float.parseFloat(fbDataInHour.get(j).getLatitude()), Float.parseFloat(fbDataInHour.get(j).getLongitude()), Float.parseFloat(fbDataInHour.get(j - 1).getLatitude()), Float.parseFloat(fbDataInHour.get(j - 1).getLongitude()));
                     //Log.e("Distancia a:", Float.toString(distancia) + "->" + fbDataInHour.get(i).getHora());
+
+                /*
                     if ((Double.parseDouble(fbDataInHour.get(indice).getLatitude())-Double.parseDouble(fbDataInHour.get(i).getLatitude())> - 0.3 && Double.parseDouble(fbDataInHour.get(indice).getLatitude())-Double.parseDouble(fbDataInHour.get(i).getLatitude())<0.3) || (Double.parseDouble(fbDataInHour.get(indice).getLongitude())-Double.parseDouble(fbDataInHour.get(i).getLongitude())>0.3 && Double.parseDouble(fbDataInHour.get(indice).getLongitude())-Double.parseDouble(fbDataInHour.get(i).getLongitude())<-0.3))
                     {
                         if(indice==i){
-                            sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
-                                    new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                                    title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature - " + fbDataInHour.get(i).getTemperature() + "/ Humidity - " + fbDataInHour.get(i).getHumidade()).icon(BitmapDescriptorFactory.
-                                    defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
 
-                            //circles around markers
-                            if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
-                                mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 200)).strokeColor(Color.argb(90, 0, 0, 200)).strokeWidth(8)));
-                            }
-                            if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 9 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 13) {
-                                mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 0, 0, 80)).strokeColor(Color.argb(90, 0, 0, 80)).strokeWidth(6)));
-
-                            }
-                            if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 13 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 18) {
-                                mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 120, 200, 0)).strokeColor(Color.argb(90, 120, 200, 0)).strokeWidth(6)));
-
-                            }
-
-                            if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 18 && Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 28) {
-                                mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 220, 0, 0)).strokeColor(Color.argb(90, 220, 0, 0)).strokeWidth(6)));
-                            }
-                            if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) >= 28) {
-                                mCircle.add(mMap.addCircle(new CircleOptions().center(
-                                        new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 40, 0, 0)).strokeColor(Color.argb(90, 40, 0, 0)).strokeWidth(6)));
-                            }
                         }
                         else continue;
                     }
@@ -259,6 +307,7 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
                                     new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).radius(8000).fillColor(Color.argb(90, 40, 0, 0)).strokeColor(Color.argb(90, 40, 0, 0)).strokeWidth(6)));
                         }
                     }
+                    */
                  }
         }
 

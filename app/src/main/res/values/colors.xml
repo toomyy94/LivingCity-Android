@@ -18,6 +18,13 @@
     <color name="colorMenu">#008000</color>
     <color name="colorMenuOlive">#808000</color>
     <color name="whiteTransparent">#50ffffff</color>
+    <color name="blackTransparent">#80000000</color>
+
+    <color name="humidity0">#9087CEFF</color>
+    <color name="humidity21">#9000BFFF</color>
+    <color name="humidity41">#905CACEE</color>
+    <color name="humidity61">#901C86EE</color>
+    <color name="humidity81">#90104E8B</color>
 
 
 </resources>

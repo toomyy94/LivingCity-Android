@@ -25,48 +25,50 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7pt"
-            android:buttonTint="@color/colorWhite"
-            android:text="0 20 "
-            android:background="@color/whiteTransparent"
+            android:buttonTint="@color/colorPrimaryText"
+            android:text="0% - 20% "
+            android:background="@color/humidity0"
             android:layout_gravity="right" />
 
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7pt"
-            android:buttonTint="@color/colorWhite"
-            android:text="21  40 "
-            android:background="@color/whiteTransparent"
+            android:buttonTint="@color/colorPrimaryText"
+            android:text="21% - 40% "
+            android:background="@color/humidity21"
             android:layout_gravity="right" />
 
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7pt"
-            android:buttonTint="@color/colorWhite"
-            android:text="041  60 "
-            android:background="@color/whiteTransparent"
+            android:buttonTint="@color/colorPrimaryText"
+            android:text="41% - 60% "
+            android:background="@color/humidity41"
             android:layout_gravity="right" />
 
         <TextView
 
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7pt"
-            android:buttonTint="@color/colorWhite"
-            android:text="61  80 "
-            android:background="@color/whiteTransparent"
+            android:buttonTint="@color/colorPrimaryText"
+            android:text="61% - 80%"
+            android:background="@color/humidity61"
             android:layout_gravity="right" />
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7pt"
-            android:buttonTint="@color/colorWhite"
-            android:text="81  100 "
-            android:background="@color/whiteTransparent"
+            android:buttonTint="@color/colorPrimaryText"
+            android:text="81% - 100%"
+            android:background="@color/humidity81"
             android:layout_gravity="right" />
 
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryText"
+            android:text="unavailable"
+            android:background="@color/blackTransparent"
+            android:layout_gravity="right" />
 
     </LinearLayout>
 

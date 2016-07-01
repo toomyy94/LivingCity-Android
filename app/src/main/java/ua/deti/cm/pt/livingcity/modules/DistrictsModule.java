@@ -52,21 +52,23 @@ public class DistrictsModule extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void args) {
 
 
+        if (nodelist.getLength() != 0){
+            for (int temp = 0; temp < nodelist.getLength(); temp++) {
 
-        for (int temp = 0; temp < nodelist.getLength(); temp++) {
+                Node nNode = nodelist.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
 
-            Node nNode = nodelist.item(temp);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
+                    if (getNode("type", eElement).equals("administrative_area_level_1")){
+                        Log.e("district: ", getNode("formatted_address", eElement));
+                        district = getNode("formatted_address", eElement);
+                    }
 
-                if (getNode("type", eElement).equals("administrative_area_level_1")){
-                    Log.e("district: ", getNode("formatted_address", eElement));
-                    district = getNode("formatted_address", eElement);
+
                 }
-
-
             }
         }
+
 
     }
 

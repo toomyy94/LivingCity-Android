@@ -759,7 +759,7 @@ public class MainActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_humidity) {
 
-            HumidityFragment fragment1 = new HumidityFragment(gps, fbDataInStations, fbDataPolluent);
+            HumidityFragment fragment1 = new HumidityFragment(gps);
 
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import org.eazegraph.lib.charts.ValueLineChart;
 import org.eazegraph.lib.communication.IOnPointFocusedListener;
 import org.eazegraph.lib.models.ValueLinePoint;
@@ -48,6 +50,11 @@ public class MonitoringFragment extends ChartFragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_monitoring, container, false);
+
+        TextView tx = (TextView) view.findViewById(R.id.distr);
+        tx.clearComposingText();
+        tx.append(DistrictsModule.getDistrict());
+
         chartTemp = (ValueLineChart) view.findViewById(R.id.temp);
         chartHumd = (ValueLineChart) view.findViewById(R.id.humd);
         loadDataTemp();

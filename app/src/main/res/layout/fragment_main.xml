@@ -27,7 +27,7 @@
             android:buttonTint="@color/colorWhite"
             android:layout_alignParentRight="true"
             android:text="See sensors info"
-            android:background="@color/whiteTransparent"
+            android:background="@color/blackTransparent"
             android:layout_gravity="right" />
 
         <CheckBox
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:buttonTint="@color/colorWhite"
-            android:background="@color/whiteTransparent"
+            android:background="@color/blackTransparent"
             android:text="See Tourist Attractions"
             android:layout_gravity="right" />
 
