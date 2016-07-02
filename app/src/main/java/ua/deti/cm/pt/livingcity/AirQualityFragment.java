@@ -174,12 +174,12 @@ public class AirQualityFragment extends Fragment implements OnMapReadyCallback {
 
                 if(qualidade_do_ar>2) {
                     stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
-                            title((fbDataInStations.get(i).getNome_actual() + " - Air Quality: Good")).icon(BitmapDescriptorFactory.
+                            title((fbDataInStations.get(i).getNome_actual())).snippet("Air Quality: Good").icon(BitmapDescriptorFactory.
                             defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
                 }
                 else {
                     stations_markers.add(googleMap.addMarker(new MarkerOptions().position(new LatLng(fbDataInStations.get(i).getLAT(), fbDataInStations.get(i).getLON())).
-                            title((fbDataInStations.get(i).getNome_actual()+" - Air Quality: Bad")).icon(BitmapDescriptorFactory.
+                            title((fbDataInStations.get(i).getNome_actual())).snippet("Air Quality: Bad").icon(BitmapDescriptorFactory.
                             defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
                 }
 

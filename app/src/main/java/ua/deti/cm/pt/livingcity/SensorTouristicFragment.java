@@ -58,7 +58,7 @@ import ua.deti.cm.pt.livingcity.modules.LocationCoord;
  */
 
 @SuppressLint("ValidFragment")
-public class SensorTouristicFragment extends Fragment  implements OnMapReadyCallback {
+public class SensorTouristicFragment extends Fragment  implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener  {
 
     //On Firebase Get's
     private static List<FireBaseSensorData> fbDataInHour = null;
@@ -110,6 +110,27 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
 
 
+    private Marker myMarker;
+
+    private void setUpMap()
+    {
+
+
+    }
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+
+        if (marker.equals(myMarker))
+        {
+            Log.e("dss","FOIII");
+        }
+        return true;
+    }
+
+
+
+
     public SensorTouristicFragment(LocationCoord gps, List<ItemTuristic> lstItem) {
         this.gps = gps;
         this.lstItem = lstItem;
@@ -153,6 +174,8 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         return v;
     }
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -160,6 +183,8 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
         //Log.i("ola:", fbDataInHour.toString());
         // Add a marker in Sydney and move the camera
         googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+
+
 
         // 0- Algarve ; 1- ; 2- ; 3- ; 4- ; 5- ; 6- ; 7- ; 8- ;
         // 9- ; 10- ; 11- ; 12- ; 13- ; 14- ; 15- ; 16- ; 17- ; 18-
@@ -195,8 +220,8 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
                     sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
                             new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                            title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature: " + fbDataInHour.get(i).getTemperature() ).icon(BitmapDescriptorFactory.
-                            defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
+                            title("Temperature: " + fbDataInHour.get(i).getTemperature()).snippet(fbDataInHour.get(i).getHora().substring(0, 5) + "h").icon(BitmapDescriptorFactory.
+                                    defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
 
                     //circles around markers
                     if (Double.parseDouble(fbDataInHour.get(i).getTemperature().substring(0, 2)) < 9) {
