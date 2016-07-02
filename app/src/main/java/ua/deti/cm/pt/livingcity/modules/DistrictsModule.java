@@ -2,6 +2,7 @@ package ua.deti.cm.pt.livingcity.modules;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -61,6 +62,7 @@ public class DistrictsModule extends AsyncTask<String, Void, Void> {
 
                     if (getNode("type", eElement).equals("administrative_area_level_1")){
                         Log.e("district: ", getNode("formatted_address", eElement));
+
                         district = getNode("formatted_address", eElement);
                     }
 

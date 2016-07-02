@@ -29,6 +29,10 @@
     <item>
         <menu>
             <item
+                android:id="@+id/share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share my localization" />
+            <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/bookmark4"
                 android:title="Labels" />

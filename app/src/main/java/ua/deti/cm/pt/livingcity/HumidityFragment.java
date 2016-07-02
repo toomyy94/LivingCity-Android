@@ -340,7 +340,7 @@ public class HumidityFragment extends Fragment implements OnMapReadyCallback {
                 aveiro = false;
             }
 
-            else if (valueSensorInFireBase.get(i).getDistrct().equals("Porto District") && porto == true){
+            else if (valueSensorInFireBase.get(i).getDistrct().equals("Porto District, Portugal") && porto == true){
 
                 int humd = (int)Double.parseDouble(valueSensorInFireBase.get(i).getHumidade().split("%")[0]);
 
@@ -378,7 +378,7 @@ public class HumidityFragment extends Fragment implements OnMapReadyCallback {
                 porto = false;
             }
 
-            else if (valueSensorInFireBase.get(i).getDistrct().equals("Santarém District") && santarem == true){
+            else if (valueSensorInFireBase.get(i).getDistrct().equals("Santarém District, Portugal") && santarem == true){
 
                 int humd = (int)Double.parseDouble(valueSensorInFireBase.get(i).getHumidade().split("%")[0]);
 
@@ -402,7 +402,7 @@ public class HumidityFragment extends Fragment implements OnMapReadyCallback {
                 santarem = false;
             }
 
-            else if (valueSensorInFireBase.get(i).getDistrct().equals("Coimbra District") && coimbra == true){
+            else if (valueSensorInFireBase.get(i).getDistrct().equals("Coimbra District, Portugal") && coimbra == true){
 
                 int humd = (int)Double.parseDouble(valueSensorInFireBase.get(i).getHumidade().split("%")[0]);
 
@@ -426,7 +426,7 @@ public class HumidityFragment extends Fragment implements OnMapReadyCallback {
                 coimbra = false;
             }
 
-            else if (valueSensorInFireBase.get(i).getDistrct().equals("Leiria District") && leiria == true){
+            else if (valueSensorInFireBase.get(i).getDistrct().equals("Leiria District, Portugal") && leiria == true){
 
                 int humd = (int)Double.parseDouble(valueSensorInFireBase.get(i).getHumidade().split("%")[0]);
 
@@ -453,13 +453,6 @@ public class HumidityFragment extends Fragment implements OnMapReadyCallback {
         }
 
         //
-
-
-
-
-
-
-
 
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gps.getLatitude(), gps.getLongitude()), 6));

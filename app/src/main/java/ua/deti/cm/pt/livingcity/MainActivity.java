@@ -594,7 +594,7 @@ public class MainActivity extends AppCompatActivity
             mTemperature = mTemperature.substring(1,mTemperature.length());
         }
 
-        Log.i("Valor da temp é:",mTemperature);
+        Log.i("Valor da temp é:", mTemperature);
 
     }
 
@@ -766,6 +766,12 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment1);
             fragmentTransaction.commit();
 
+        }else if (id == R.id.share){
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "My location sends via LivingCity\nhttp://maps.google.com/maps?q="+gps.getLatitude()+ ","+gps.getLongitude());
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
         }
 
 

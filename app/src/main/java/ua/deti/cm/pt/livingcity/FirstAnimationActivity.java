@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -112,6 +113,10 @@ public class FirstAnimationActivity extends AppCompatActivity  {
         URLDist = "https://maps.googleapis.com/maps/api/geocode/xml?&latlng="+gps.getLatitude()+","+gps.getLongitude();
 
         new DistrictsModule().execute(URLDist);
+
+
+ //       Toast.makeText(this, DistrictsModule.getDistrict(), Toast.LENGTH_SHORT).show();
+
 
     }
 
