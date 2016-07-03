@@ -253,7 +253,7 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
 
                     sensor_markers.add(googleMap.addMarker(new MarkerOptions().position(
                             new LatLng(Double.parseDouble(fbDataInHour.get(i).getLatitude()), Double.parseDouble(fbDataInHour.get(i).getLongitude()))).
-                            title((fbDataInHour.get(i).getHora().substring(0, 5) + "h: ") + "Temperature: " + fbDataInHour.get(i).getTemperature() ).icon(BitmapDescriptorFactory.
+                            title("Temperature: " + fbDataInHour.get(i).getTemperature()).snippet(fbDataInHour.get(i).getHora().substring(0, 5) + "h").icon(BitmapDescriptorFactory.
                             defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))));
 
                     //circles around markers
@@ -281,9 +281,6 @@ public class SensorTouristicFragment extends Fragment  implements OnMapReadyCall
                     }
 
                 }
-
-
-
 
 
 
