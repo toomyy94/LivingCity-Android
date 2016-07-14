@@ -10,6 +10,7 @@
 * XML parser: get current district - https://maps.googleapis.com/maps/api/geocode/xml?&latlng=XX,YY
 * Graphic view: [EazeGraph](https://github.com/blackfizz/EazeGraph)
 
+XX -> latitude YY -> longitude
 
 
 ### Report
