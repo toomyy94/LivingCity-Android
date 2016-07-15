@@ -1,5 +1,12 @@
 # LivingCity Android Application
 
+
+### Views
+
+![alt tag](https://github.com/ruipoliveira/livingCity-Android/blob/master/Resources/printsViews.png)
+
+
+
 ### Technologies used
 
 * Android SDK (Fragments, AsycTask, Animation-list, coordinative location, Intent, IntentService...) 
@@ -10,11 +17,12 @@
 * XML parser: get current district - https://maps.googleapis.com/maps/api/geocode/xml?&latlng=XX,YY
 * Graphic view: [EazeGraph](https://github.com/blackfizz/EazeGraph)
 
-XX -> latitude YY -> longitude
+Note: XX -> latitude YY -> longitude
+
 
 
 ### Report
-* pdf
+* [pdf version](https://github.com/ruipoliveira/livingCity-Android/blob/master/Resources/LivingCity-android-14-07-16.pdf)
 
 
 ### Authors
