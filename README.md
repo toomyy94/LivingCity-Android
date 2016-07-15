@@ -20,9 +20,8 @@
 Note: XX -> latitude YY -> longitude
 
 
-
 ### Report
-* [pdf version](https://github.com/ruipoliveira/livingCity-Android/blob/master/Resources/LivingCity-android-14-07-16.pdf)
+* [portuguese version (pdf)](https://github.com/ruipoliveira/livingCity-Android/blob/master/Resources/LivingCity-android-14-07-16.pdf)
 
 
 ### Authors
